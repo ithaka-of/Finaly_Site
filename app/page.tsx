@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "./i18n/context";
 import { homeDict } from "./i18n/home";
@@ -9,39 +11,19 @@ import { ChaosSystem } from "./components/ChaosSystem";
 import { GlitchText } from "./components/GlitchText";
 import { CursorField } from "./components/CursorField";
 import { HeroScan } from "./components/HeroScan";
+import { ScrollGate } from "./components/ScrollGate";
+import { DownloadIcon, GithubIcon, MailIcon, PortfolioIcon, TelegramIcon, XIcon } from "./components/Icons";
 
-const projectsMeta = [
-  {
-    index: "01",
-    code: "KVT / ADMISSION",
-    meta: "PROCESS LOGIC · DATA · GOOGLE SHEETS",
-    status: "CASE IN PREPARATION",
-    className: "project--wide",
-    href: "https://github.com/Mloop13/Priemka",
-  },
-  {
-    index: "02",
-    code: "MEDCENTER / 2026",
-    meta: "WEB APP · DATABASE · UX",
-    status: "COMPLETED",
-    href: "http://155.212.224.183",
-  },
-  {
-    index: "03",
-    code: "M207 / 2026",
-    meta: "WEBSITE · ART DIRECTION · DELIVERY",
-    status: "LIVE",
-    href: "https://mloop13.github.io/m207soft/",
-  },
-  {
-    index: "04",
-    code: "AGENT LAB / R&D",
-    meta: "AI AGENTS · TELEGRAM · KNOWLEDGE",
-    status: "IN PROGRESS",
-  },
-];
+type HeroCta = "portfolio" | "contact";
 
-const capabilityNumbers = ["01", "02", "03", "04"];
+const HERO_PRIMARY_CTA: HeroCta = "portfolio";
+
+// Ширина одной ступени каскада «рабочего цикла», в колонках сетки.
+// Держится в паре с `.about-loop li { grid-column-end: span 4 }` в globals.css.
+const LOOP_SPAN = 4;
+
+const heroActionClass = (id: HeroCta) =>
+  `button hero-action ${HERO_PRIMARY_CTA === id ? "button-primary hero-action-primary" : "button-secondary hero-action-secondary"}`;
 
 export default function Home() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -52,8 +34,8 @@ export default function Home() {
   const toggleCap = (i: number) => setOpenCap((prev) => (prev === i ? null : i));
 
   // ITHAKA-подложку равняем по самой длинной строке заголовка. Считать константой
-  // в CSS нельзя: у ru и en разные тексты («в работающую» / «into a working»),
-  // а строки заголовка nowrap и выходят за свой блок — эталон только фактический текст.
+  // в CSS нельзя: у ru и en разные тексты, а строки заголовка nowrap и выходят за
+  // свой блок. Эталон здесь только фактическая ширина текста.
   const wordRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
@@ -73,7 +55,6 @@ export default function Home() {
       const size = parseFloat(getComputedStyle(word).fontSize);
       const width = textWidth(word);
       if (!widest || !width || !size) return;
-      // ширина слова линейна по font-size — снимаем коэффициент и решаем под нужную ширину
       word.style.fontSize = `${widest / (width / size)}px`;
     };
 
@@ -83,22 +64,25 @@ export default function Home() {
     return () => ro.disconnect();
   }, [lang]);
 
-  const projects = projectsMeta.map((meta, i) => ({ ...meta, ...t.projects[i] }));
-  const capabilities = capabilityNumbers.map((number, i) => ({ number, ...t.capabilities[i] }));
+  const deckLabels = ["MAIN/ITHAKA", t.nav.skills, t.nav.about, t.nav.contact];
+  const capabilities = t.capabilities.map((item, i) => ({ number: String(i + 1).padStart(2, "0"), ...item }));
+  const tickerItems = [...t.skillsSection.ticker, ...t.skillsSection.ticker, ...t.skillsSection.ticker];
+  const resumeFile = lang === "ru" ? "resume-ru.pdf" : "resume-en.pdf";
+  const resumeName = lang === "ru" ? "sergey-timoshenko-resume-ru.pdf" : "sergey-timoshenko-resume-en.pdf";
 
   return (
     <main>
       <header className="site-header">
         <div id="deck-header-controls" className="deck-header-slot" aria-live="polite" />
         <div className="header-actions">
-          <LanguageToggle />
           <a className="header-cta" href="https://telegram.me/Wand33rlust" target="_blank" rel="noreferrer">
-            Telegram <span>↗</span>
+            <TelegramIcon /> Telegram
           </a>
+          <LanguageToggle />
         </div>
       </header>
 
-      <Deck hint={lang === "ru" ? "листай" : "scroll"}>
+      <Deck hint={lang === "ru" ? "листай" : "scroll"} labels={deckLabels}>
         {/* Панель 0 — Hero */}
         <div className="deck-panel hero-panel">
           <section className="hero" id="top">
@@ -109,12 +93,10 @@ export default function Home() {
 
             <div className="hero-word" ref={wordRef} aria-label="ITHAKA" data-text="ITHAKA">
               ITHAKA
-              {/* третий канал глитча: ::before/::after заняты минтом и маджентой */}
               <span className="hero-word-layer" data-text="ITHAKA" aria-hidden="true" />
             </div>
 
             <div className="hero-copy">
-              <div className="eyebrow">IT × HAKA / THE WAY TO A WORKING SYSTEM</div>
               <h1 className="glitch-h glitch-chroma" ref={headingRef}>
                 <GlitchText
                   mode="scramble"
@@ -122,22 +104,35 @@ export default function Home() {
                 />
               </h1>
               <p>{t.hero.paragraph}</p>
+
+              <div className="hero-skills" aria-label={t.hero.skillsLabel}>
+                {t.hero.skills.map((skill) => (
+                  <span key={skill}>{skill}</span>
+                ))}
+              </div>
+
               <div className="hero-actions">
-                <a className="button button-primary" href="#projects">
-                  {t.hero.ctaPrimary} <span>→</span>
+                <Link className={heroActionClass("portfolio")} href="/portfolio/">
+                  {t.hero.ctaPortfolio} <PortfolioIcon />
+                </Link>
+                <a className={heroActionClass("contact")} href="#contact">
+                  {t.hero.ctaContact} <MailIcon />
                 </a>
-                <a className="text-link" href="https://telegram.me/Wand33rlust" target="_blank" rel="noreferrer">
-                  {t.hero.ctaSecondary} <span>↗</span>
+                <a className="hero-resume-link" href={`${basePath}/${resumeFile}`} download={resumeName}>
+                  {t.hero.ctaResume} <DownloadIcon />
                 </a>
               </div>
             </div>
 
             <div className="hero-art" aria-hidden="true">
-              <div className="hero-chevron">›</div>
-              <img
+              <Image
                 className="hero-portrait"
-                src={`${basePath}/ithaka-normal-v5.png`}
+                src={`${basePath}/ithaka-normal-scan.webp`}
                 alt=""
+                fill
+                priority
+                sizes="(max-width: 768px) 80vw, (max-width: 1050px) 68vw, 48vw"
+                unoptimized
                 draggable={false}
                 onContextMenu={(e) => e.preventDefault()}
               />
@@ -149,198 +144,162 @@ export default function Home() {
               <span className="side-mono">/ METHOD</span>
               <span className="side-index">001—ITH</span>
             </div>
-
           </section>
         </div>
 
-        {/* Панель 1 — Кейсы: сетка 2×2 */}
-        <section className="deck-panel cases-panel section" id="projects">
-          <CursorField mode="hold" />
-          <div className="cases-head">
-            <div className="cases-title">
-              <div className="cases-head-inner">
-                <h2 className="glitch-chroma">
-                  <GlitchText
-                    mode="scramble"
-                    lines={[{ text: t.projectsSection.heading[0] }, { text: t.projectsSection.heading[1], accent: true }]}
-                  />
-                </h2>
-                <div className="cases-kicker">
-                  <span className="section-index">/ 02</span>
-                  <p className="eyebrow">SELECTED WORK / PROOF OF PROCESS</p>
-                </div>
-              </div>
-            </div>
-            <p className="cases-intro">{t.projectsSection.intro}</p>
-            <span className="cases-count">
-              <strong>04</strong> / 04
-            </span>
-          </div>
-          <div className="cases-grid">
-            {projects.map((project) => {
-              const inner = (
-                <>
-                  <div className="case-card-top">
-                    <span className="case-card-index">{project.index}</span>
-                    <span className="case-card-code">{project.code}</span>
-                    <span className="case-card-arrow">{project.href ? "↗" : "·"}</span>
-                  </div>
-                  <div className="case-card-mid">
-                    <h3>{project.title}</h3>
-                    <strong className="case-card-proof">{project.proof}</strong>
-                    <p>{project.description}</p>
-                  </div>
-                  <div className="case-card-meta">
-                    <span>{project.meta}</span>
-                    <span>{project.status}</span>
-                  </div>
-                </>
-              );
-              return project.href ? (
-                <a
-                  key={project.index}
-                  className="case-card"
-                  data-glyph={project.index}
-                  href={project.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {inner}
-                </a>
-              ) : (
-                <div key={project.index} className="case-card" data-glyph={project.index}>
-                  {inner}
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Панель 5 — Метод */}
-        <section className="deck-panel method section" id="method">
+        {/* Панель 1 — Что я умею */}
+        <section className="deck-panel method section" id="skills">
           <CursorField mode="hold" />
           <div className="method-title">
             <div className="method-head">
               <h2 className="glitch-chroma">
                 <GlitchText
                   mode="scramble"
-                  lines={[{ text: t.method.heading[0] }, { text: t.method.heading[1], accent: true }]}
+                  lines={[{ text: t.skillsSection.heading[0] }, { text: t.skillsSection.heading[1], accent: true }]}
                 />
               </h2>
-              <div className="method-kicker">
-                <span className="section-index">/ 03</span>
-                <p className="eyebrow">OPERATING PRINCIPLES</p>
-              </div>
             </div>
             <div className="method-note">
-              <span>AI ASSISTED</span>
-              <span>HUMAN DIRECTED</span>
-              <span>RESULT VERIFIED</span>
+              {t.skillsSection.notes.map((note) => (
+                <span key={note}>{note}</span>
+              ))}
             </div>
             <div className="method-figure" aria-hidden="true">
-              <span className="method-count">04</span>
-              <span className="method-count-label">CORE STEPS</span>
-              <span className="method-bars"><i /><i /><i /><i /></span>
+              <span className="method-count">{String(capabilities.length).padStart(2, "0")}</span>
+              <span className="method-count-label">{t.skillsSection.countLabel}</span>
+              <span className="method-bars">
+                {capabilities.map((item) => (
+                  <i key={item.number} />
+                ))}
+              </span>
             </div>
           </div>
           <div className="method-right">
             <div className="capability-list">
-            {capabilities.map((item, i) => {
-              const open = openCap === i;
-              return (
-                <button
-                  type="button"
-                  className={`capability${open ? " is-open" : ""}`}
-                  key={item.number}
-                  onClick={() => toggleCap(i)}
-                  aria-expanded={open}
-                >
-                  <span>{item.number}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                  <i aria-hidden="true">+</i>
-                </button>
-              );
-            })}
+              {capabilities.map((item, i) => {
+                const open = openCap === i;
+                return (
+                  <button
+                    type="button"
+                    className={`capability${open ? " is-open" : ""}`}
+                    key={item.number}
+                    onClick={() => toggleCap(i)}
+                    aria-expanded={open}
+                  >
+                    <span>{item.number}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                    {item.items && (
+                      <ul>
+                        {item.items.map((entry) => (
+                          <li key={entry}>{entry}</li>
+                        ))}
+                      </ul>
+                    )}
+                    <i aria-hidden="true">+</i>
+                  </button>
+                );
+              })}
             </div>
           </div>
-          <div className="ticker method-ticker" aria-label="Текущие направления">
+          <div className="ticker method-ticker" aria-label={t.skillsSection.tickerLabel}>
             <div className="ticker-track">
-              <span>AVAILABLE FOR PROJECTS</span><i>✦</i>
-              <span>WEBSITES</span><i>✦</i>
-              <span>AUTOMATION</span><i>✦</i>
-              <span>AI SYSTEMS</span><i>✦</i>
-              <span>B2B LEAD GENERATION / NEXT</span><i>✦</i>
-              <span>AVAILABLE FOR PROJECTS</span><i>✦</i>
-              <span>WEBSITES</span><i>✦</i>
-              <span>AUTOMATION</span><i>✦</i>
-              <span>AI SYSTEMS</span><i>✦</i>
-              <span>B2B LEAD GENERATION / NEXT</span><i>✦</i>
-              <span>AVAILABLE FOR PROJECTS</span><i>✦</i>
-              <span>WEBSITES</span><i>✦</i>
-              <span>AUTOMATION</span><i>✦</i>
+              {tickerItems.map((item, i) => (
+                <span key={`${item}-${i}`}>
+                  {item}
+                  <i aria-hidden="true" />
+                </span>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Панель 6 — Обо мне */}
+        {/* Панель 2 — Обо мне */}
         <section className="deck-panel about section" id="about">
           <CursorField mode="hold" />
           <div className="about-art">
             <ChaosSystem />
           </div>
           <div className="about-copy">
-            <div className="about-kicker">
-              <span className="section-index">/ 04</span>
-              <p className="eyebrow">SERGEY TIMOSHENKO / BUILDER IN PROGRESS</p>
-            </div>
-            <h2 className="glitch-chroma"><GlitchText mode="scramble" lines={[{ text: t.about.heading }]} /></h2>
+            <h2 className="glitch-chroma">
+              <GlitchText mode="scramble" lines={[{ text: t.about.heading }]} />
+            </h2>
             <p className="about-lead">{t.about.lead}</p>
             <p>{t.about.paragraph}</p>
-            <div className="about-links">
-              <a href="https://github.com/Mloop13" target="_blank" rel="noreferrer">GitHub ↗</a>
-              <a href="https://telegram.me/Wand33rlust" target="_blank" rel="noreferrer">Telegram ↗</a>
+
+            <div className="about-loop" aria-label={t.about.loopLabel}>
+              <span className="about-loop-label">{t.about.loopLabel}</span>
+              {/* Каскад: шаг N начинается на одну колонку правее шага N-1 и сам занимает
+                  LOOP_SPAN колонок. Колонок ровно столько, чтобы последняя ступень
+                  упиралась в правый край и не вылезала за него. */}
+              <ol
+                style={
+                  {
+                    "--loop-count": t.about.loop.length,
+                    gridTemplateColumns: `repeat(${t.about.loop.length + LOOP_SPAN - 1}, 1fr)`,
+                  } as React.CSSProperties
+                }
+              >
+                {t.about.loop.map((step, i) => (
+                  <li key={step} style={{ "--i": i, gridColumnStart: i + 1 } as React.CSSProperties}>
+                    {step}
+                  </li>
+                ))}
+              </ol>
             </div>
+
           </div>
         </section>
 
-        {/* Панель 7 — Контакт + footer */}
+        {/* Панель 3 — Контакт + footer */}
         <div className="deck-panel contact-panel">
-          <section className="contact section">
+          <section className="contact section" id="contact">
             <CursorField mode="hold" />
             <div className="contact-top">
-              <span className="status-line"><span className="status-dot" /> OPEN CHANNEL</span>
-              <span>/ 05 · BUILD 01 / 2026</span>
+              <span className="status-line">
+                <span className="status-dot" /> OPEN CHANNEL
+              </span>
             </div>
             <h2 className="glitch-chroma">
               <GlitchText
                 mode="scramble"
-                lines={[{ text: t.contact.heading[0] }, { text: t.contact.heading[1] }, { text: t.contact.heading[2], accent: true }]}
+                lines={[
+                  { text: t.contact.heading[0] },
+                  { text: t.contact.heading[1] },
+                  { text: t.contact.heading[2], accent: true },
+                ]}
               />
             </h2>
             <div className="contact-channels">
               <a className="contact-action contact-action-primary" href="https://telegram.me/Wand33rlust" target="_blank" rel="noreferrer">
                 <span>{t.contact.action}</span>
                 <em>@Wand33rlust</em>
-                <strong>↗</strong>
+                <strong><TelegramIcon /></strong>
               </a>
               <a className="contact-action" href="mailto:ithakawork@gmail.com">
                 <span>{t.contact.actionEmail}</span>
                 <em>ithakawork@gmail.com</em>
-                <strong>↗</strong>
+                <strong><MailIcon /></strong>
+              </a>
+              <a className="contact-action" href="https://github.com/Mloop13" target="_blank" rel="noreferrer">
+                <span>{t.contact.actionGithub}</span>
+                <em>github.com/Mloop13</em>
+                <strong><GithubIcon /></strong>
               </a>
               <a className="contact-action" href="https://x.com/Wand33rlust_" target="_blank" rel="noreferrer">
                 <span>{t.contact.actionX}</span>
                 <em>@Wand33rlust_</em>
-                <strong>↗</strong>
+                <strong><XIcon /></strong>
               </a>
             </div>
+
+            <ScrollGate href="/portfolio/" label={t.scrollGate.label} ready={t.scrollGate.ready} />
           </section>
 
           <footer>
-            <a className="brand" href="#top">ITHAKA/</a>
-            <p>PERSONAL SYSTEM OF SERGEY TIMOSHENKO</p>
-            <p>FROM CHAOS TO SYSTEM © 2026</p>
+            <a className="brand" href="#top">
+              {t.footer.brand}
+            </a>
           </footer>
         </div>
       </Deck>

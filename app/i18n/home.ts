@@ -1,142 +1,366 @@
 import type { Lang } from "./context";
 
 export type HomeDict = {
-  nav: { projects: string; method: string; about: string };
+  nav: { portfolio: string; skills: string; about: string; contact: string };
   hero: {
     lines: string[];
     paragraph: string;
-    ctaPrimary: string;
-    ctaSecondary: string;
+    skillsLabel: string;
+    skills: string[];
+    ctaPortfolio: string;
+    ctaContact: string;
+    ctaResume: string;
   };
-  projectsSection: { heading: string[]; intro: string };
-  projects: Array<{ title: string; description: string; proof: string }>;
-  method: { heading: string[] };
-  capabilities: Array<{ title: string; text: string }>;
-  about: { heading: string; lead: string; paragraph: string };
-  contact: { heading: string[]; action: string; actionEmail: string; actionX: string };
+  projectsSection: { heading: string[] };
+  projectCard: {
+    work: string;
+    result: string;
+    stack: string;
+    role: string;
+    links: string;
+    demo: string;
+    github: string;
+    screenshotAlt: string;
+    previewComing: string;
+    closePreview: string;
+    storyOnly: string;
+  };
+  portfolioPage: {
+    backHome: string;
+    telegram: string;
+    playHeading: string;
+    playText: string;
+    playCta: string;
+  };
+  projects: Array<{
+    title: string;
+    description: string;
+    proof: string;
+    stack: string;
+    role: string;
+    statusLabel?: string;
+  }>;
+  skillsSection: {
+    heading: string[];
+    notes: string[];
+    countLabel: string;
+    tickerLabel: string;
+    ticker: string[];
+  };
+  capabilities: Array<{ title: string; text: string; items?: string[] }>;
+  about: { heading: string; lead: string; paragraph: string; loopLabel: string; loop: string[] };
+  scrollGate: { label: string; ready: string };
+  contact: { heading: string[]; action: string; actionEmail: string; actionGithub: string; actionX: string };
+  footer: { brand: string };
 };
 
 const ru: HomeDict = {
-  nav: { projects: "Проекты", method: "Метод", about: "Обо мне" },
+  nav: { portfolio: "Портфолио", skills: "Что умею", about: "Обо мне", contact: "Контакт" },
   hero: {
     lines: ["Из хаоса —", "в рабочую", "систему"],
     paragraph:
-      "Собираю сайты, автоматизации и AI-инструменты для задач, где важны логика, данные и быстрый запуск. Превращаю размытый запрос в рабочий результат, который можно показать клиенту или команде.",
-    ctaPrimary: "Смотреть проекты",
-    ctaSecondary: "Обсудить задачу",
+      "Собираю сайты, автоматизации и AI-инструменты. Беру задачу в том виде, в каком её описал заказчик, и довожу до состояния, которое можно открыть и показать.",
+    skillsLabel: "Навыки",
+    skills: ["Веб: фронт, бэк, база", "Локальные AI-модели", "Автоматизация рутины"],
+    ctaPortfolio: "Портфолио",
+    ctaContact: "Связаться",
+    ctaResume: "Скачать резюме",
   },
   projectsSection: {
     heading: ["Работающие", "артефакты"],
-    intro:
-      "Здесь не коллекция технологий, а задачи, которые удалось превратить в результат. Новые кейсы по B2B-лидогенерации будут появляться по мере запуска.",
+  },
+  projectCard: {
+    work: "Что сделал",
+    result: "Результат",
+    stack: "Стек",
+    role: "Роль",
+    links: "Ссылки",
+    demo: "Демо",
+    github: "GitHub",
+    screenshotAlt: "Скриншот",
+    previewComing: "превью готовится",
+    closePreview: "Закрыть просмотр",
+    storyOnly: "Есть что рассказать",
+  },
+  portfolioPage: {
+    backHome: "На главную",
+    telegram: "Telegram",
+    playHeading: "Мини-игра",
+    playText:
+      "Кодовый замок на греческих символах: четыре знака из шести, восемь попыток, после каждой — сколько угадано на своих местах, а сколько не на своих. Сделана как разминка по состоянию и логике подсказок.",
+    playCta: "Играть",
   },
   projects: [
     {
-      title: "Рейтинг-листы приёмной кампании",
-      proof: "≈1200 заявлений переведены в рейтинг-листы",
+      title: "Сайт компании медицинского ПО",
+      proof: "Живой каталог продуктов с клиентскими итерациями",
       description:
-        "Помог Колледжу высоких технологий при БГТУ им. В. Г. Шухова собрать рейтинг-листы из выгрузки примерно на 1200 заявлений: разнос данных, сохранение ручных правок и обработка нестандартных статусов.",
+        "Сайт-визитка с каталогом продуктов: сбор материалов, постановка задачи, визуальная система под фирменный стиль и итерации с заказчиком.",
+      stack: "HTML, CSS, GitHub Pages",
+      role: "Фрилансер: пришёл заказ — сделал сайт целиком",
+      statusLabel: "живой сайт",
     },
     {
       title: "Онлайн-запись в медицинский центр",
       proof: "Полный сценарий записи от процедуры до истории визитов",
       description:
         "Дипломное веб-приложение: специалисты и процедуры, запись на приём, личный кабинет, история визитов и связанная бизнес-логика.",
+      stack: "Python, Flask, SQLite, Bootstrap",
+      role: "Наёмный разработчик: заказ на автоматизацию обработки заявок",
+      statusLabel: "диплом",
     },
     {
-      title: "Сайт компании медицинского ПО",
-      proof: "Живой каталог продуктов с клиентскими итерациями",
+      title: "Рейтинг-листы приёмной кампании",
+      proof: "≈1200 заявлений переведены в рейтинг-листы",
       description:
-        "Сайт-визитка с каталогом продуктов: сбор материалов, постановка задачи, визуальная система под фирменный стиль и итерации с заказчиком.",
+        "Помог Колледжу высоких технологий при БГТУ им. В. Г. Шухова собрать рейтинг-листы из выгрузки примерно на 1200 заявлений: разнос данных, сохранение ручных правок и обработка нестандартных статусов.",
+      stack: "Node.js, Google Sheets API v4, PowerShell",
+      role: "Помогал с приёмкой руками, увидел рутину и автоматизировал",
+      statusLabel: "результат можно показать",
+    },
+    {
+      title: "job-watcher",
+      proof: "Ручной обход источников заменён одной лентой",
+      description:
+        "Бот собирает вакансии из шести Telegram-каналов, Habr и «Работы России», фильтрует по заданным критериям и присылает подходящее в личку. Теги навыков подтягиваются оттуда, где они есть.",
+      stack: "Python, Telegram Bot API, RSS, API «Работа России»",
+      role: "Автор идеи и разработчик",
+      statusLabel: "работает",
     },
     {
       title: "Личная агентная инфраструктура",
       proof: "Ежедневные сводки, Telegram-доставка и база знаний",
       description:
         "Ежедневные сводки, Telegram-доставка, источники данных и база знаний. Полигон для изучения AI-агентов на собственных процессах.",
+      stack: "Claude Code, PowerShell-хуки, Telegram Bot API, Obsidian, SQLite FTS5, Ollama",
+      role: "Ставлю задачи, проверяю результат, свожу в систему",
+      statusLabel: "описание",
+    },
+    {
+      title: "price-radar",
+      proof:
+        "Извлечение цены работает и покрыто тестами; промпт доведён до стабильного ответа за четыре итерации",
+      description:
+        "Мониторинг цен на локальной модели: извлечение цены со страницы без облачных API, схема хранения снимков для сравнения «было / стало».",
+      stack: "Python, Playwright, Ollama, aiogram, SQLite",
+      role: "Делаю сам, параллельно разбираюсь в программировании",
+      statusLabel: "в работе",
     },
   ],
-  method: { heading: ["Не магия.", "Метод."] },
+  skillsSection: {
+    heading: ["Что я", "умею"],
+    notes: ["AI ASSISTED", "HUMAN DIRECTED", "RESULT VERIFIED"],
+    countLabel: "LAYERS",
+    tickerLabel: "Текущие направления",
+    ticker: ["ВЕБ: ФРОНТ, БЭК, БАЗА", "ЛОКАЛЬНЫЕ AI-МОДЕЛИ", "АВТОМАТИЗАЦИЯ РУТИНЫ"],
+  },
   capabilities: [
-    { title: "Разобрать", text: "Перевожу размытый запрос в понятные требования, сценарии и границы результата." },
-    { title: "Собрать", text: "Использую AI как производственный инструмент для сайтов, ботов и автоматизаций." },
-    { title: "Проверить", text: "Ищу неоднозначности и краевые случаи до того, как они превратятся в проблемы." },
-    { title: "Довести", text: "Показываю рабочий результат, собираю обратную связь и провожу через итерации." },
+    {
+      title: "Навыки",
+      text: "Три направления, и за каждым есть работа в портфолио.",
+      items: [
+        "Веб-приложения целиком — интерфейс, серверная часть и база данных",
+        "AI-инструменты на локальных моделях, без облака и подписок",
+        "Ручная рутина превращается в скрипт: таблицы, выгрузки, повторяющиеся операции",
+      ],
+    },
+    {
+      title: "Метод",
+      text: "ИИ пишет код. Я отвечаю за то, чтобы он делал правильную вещь.",
+      items: [
+        "Разобрать — Перевожу размытый запрос в понятные требования, сценарии и границы результата.",
+        "Собрать — Использую AI как производственный инструмент для сайтов, ботов и автоматизаций.",
+        "Проверить — Ищу неоднозначности и краевые случаи до того, как они превратятся в проблемы.",
+        "Довести — Показываю рабочий результат, собираю обратную связь и провожу через итерации.",
+      ],
+    },
+    {
+      title: "Чем помогу",
+      text: "Задачи, где рутину можно заменить скриптом, а хаос — системой.",
+      items: [
+        "Автоматизировать повторяющуюся ручную работу: выгрузки, таблицы, однотипные операции",
+        "Сделать сайт: от визитки до приложения с базой данных",
+        "Настроить поиск клиентов: подбор кандидатов, персональные первые касания, отслеживание ответов",
+      ],
+    },
   ],
   about: {
-    heading: "ITHAKA — это путь, а не маска.",
+    heading: "Как я работаю",
     lead:
-      "Я выпускник Колледжа высоких технологий по направлению «Информационные системы и программирование». Изучаю AI-агентов, автоматизацию и разработку через реальные задачи — от сайтов до процессов с данными.",
+      "Выпускник Колледжа высоких технологий, направление «Информационные системы и программирование».",
     paragraph:
-      "Моя сильная сторона — не притворяться всезнающим разработчиком, а быстро разбираться в задаче, удерживать её логику и собирать решение с современными инструментами. Сейчас углубляю фундамент разработки и превращаю практику в воспроизводимую экспертизу.",
+      "Каждый проект здесь начинался с живой задачи: сайт компании, запись в медцентр, полторы тысячи заявлений приёмной кампании. Что-то заказывали, что-то просто надоело делать руками. Разбираюсь по ходу и показываю в том числе незаконченное — так видно, как задача превращается в работающую систему.",
+    loopLabel: "Рабочий цикл",
+    loop: ["Планирование", "Разработка", "Сборка", "Тестирование", "Релиз", "Мониторинг"],
+  },
+  scrollGate: {
+    label: "Листай дальше — откроется портфолио",
+    ready: "Готово, открываю портфолио",
   },
   contact: {
     heading: ["Есть хаос,", "который пора", "собрать?"],
     action: "Написать в Telegram",
     actionEmail: "Написать на почту",
+    actionGithub: "Смотреть код",
     actionX: "Читать в X",
+  },
+  footer: {
+    brand: "ITHAKA/",
   },
 };
 
 const en: HomeDict = {
-  nav: { projects: "Projects", method: "Method", about: "About" },
+  nav: { portfolio: "Portfolio", skills: "Skills", about: "About", contact: "Contact" },
   hero: {
     lines: ["Out of chaos —", "into a working", "system"],
     paragraph:
-      "I build websites, automations, and AI tools for tasks where logic, data, and launch speed matter. I turn a vague request into a working result that can be shown to a client or a team.",
-    ctaPrimary: "View projects",
-    ctaSecondary: "Discuss a project",
+      "I build websites, automations, and AI tools. I take a task exactly as the client described it and bring it to a state you can open and show.",
+    skillsLabel: "Skills",
+    skills: ["Web: front, back, database", "Local AI models", "Routine automation"],
+    ctaPortfolio: "Portfolio",
+    ctaContact: "Contact",
+    ctaResume: "Download CV",
   },
   projectsSection: {
     heading: ["Working", "artifacts"],
-    intro:
-      "Not a stack of technologies — tasks turned into results. New B2B lead-gen cases will land here as they ship.",
+  },
+  projectCard: {
+    work: "What I did",
+    result: "Result",
+    stack: "Stack",
+    role: "Role",
+    links: "Links",
+    demo: "Demo",
+    github: "GitHub",
+    screenshotAlt: "Screenshot",
+    previewComing: "preview coming",
+    closePreview: "Close preview",
+    storyOnly: "Story to tell",
+  },
+  portfolioPage: {
+    backHome: "Home",
+    telegram: "Telegram",
+    playHeading: "Mini-game",
+    playText:
+      "A code lock on Greek symbols: four glyphs out of six, eight attempts, and after each one you learn how many are in the right place and how many are merely present. Built as a warm-up on state and hint logic.",
+    playCta: "Play",
   },
   projects: [
     {
-      title: "Admission rating sheets",
-      proof: "~1,200 applications reshaped into rating sheets",
+      title: "Website for a medical software company",
+      proof: "Live product catalog with client-side iteration",
       description:
-        "Helped the College of High Technologies at BSTU named after V. G. Shukhov build rating sheets from a ~1,200-application export: reshaping data, preserving manual edits, and handling non-standard statuses.",
+        "A business-card site with a product catalog: gathering materials, framing the task, a visual system on brand, and iterating with the client.",
+      stack: "HTML, CSS, GitHub Pages",
+      role: "Freelancer: took the order, built the site end to end",
+      statusLabel: "live website",
     },
     {
       title: "Online booking for a medical center",
       proof: "Full booking flow from procedure to visit history",
       description:
         "Capstone web app: specialists and procedures, appointment booking, a personal account, visit history, and the business logic behind it.",
+      stack: "Python, Flask, SQLite, Bootstrap",
+      role: "Hired developer: a request to automate booking intake",
+      statusLabel: "capstone",
     },
     {
-      title: "Website for a medical software company",
-      proof: "Live product catalog with client-side iteration",
+      title: "Admission rating sheets",
+      proof: "~1,200 applications reshaped into rating sheets",
       description:
-        "A business-card site with a product catalog: gathering materials, framing the task, a visual system on brand, and iterating with the client.",
+        "Helped the College of High Technologies at BSTU named after V. G. Shukhov build rating sheets from a ~1,200-application export: reshaping data, preserving manual edits, and handling non-standard statuses.",
+      stack: "Node.js, Google Sheets API v4, PowerShell",
+      role: "Helped with admissions by hand, spotted the routine, automated it",
+      statusLabel: "showable result",
+    },
+    {
+      title: "job-watcher",
+      proof: "Manual source-checking replaced by a single feed",
+      description:
+        "A bot that collects vacancies from six Telegram channels, Habr, and the Russian public job registry, filters them by set criteria, and sends matches to a private chat. Skill tags are pulled from the sources that provide them.",
+      stack: "Python, Telegram Bot API, RSS, Russian public job registry API",
+      role: "Idea author and developer",
+      statusLabel: "works",
     },
     {
       title: "Personal agent infrastructure",
       proof: "Daily digests, Telegram delivery, and a knowledge base",
       description:
         "Daily digests, Telegram delivery, data sources, and a knowledge base. A testbed for learning AI agents on my own workflows.",
+      stack: "Claude Code, PowerShell hooks, Telegram Bot API, Obsidian, SQLite FTS5, Ollama",
+      role: "I set the tasks, verify the output, and wire it into a system",
+      statusLabel: "story only",
+    },
+    {
+      title: "price-radar",
+      proof:
+        "Price extraction works and is covered by tests; the prompt reached a stable answer in four iterations",
+      description:
+        "Price monitoring on a local model: extracting a price from a page without cloud APIs, plus a snapshot schema for before/after comparison.",
+      stack: "Python, Playwright, Ollama, aiogram, SQLite",
+      role: "Building it myself while learning to program",
+      statusLabel: "in progress",
     },
   ],
-  method: { heading: ["Not magic.", "A method."] },
+  skillsSection: {
+    heading: ["What I", "can do"],
+    notes: ["AI ASSISTED", "HUMAN DIRECTED", "RESULT VERIFIED"],
+    countLabel: "LAYERS",
+    tickerLabel: "Current directions",
+    ticker: ["WEB: FRONT, BACK, DATABASE", "LOCAL AI MODELS", "ROUTINE AUTOMATION"],
+  },
   capabilities: [
-    { title: "Decode", text: "I turn a vague request into clear requirements, scenarios, and the boundaries of the result." },
-    { title: "Assemble", text: "I use AI as a production tool for websites, bots, and automations." },
-    { title: "Verify", text: "I hunt for ambiguity and edge cases before they turn into problems." },
-    { title: "Deliver", text: "I show a working result, gather feedback, and carry it through iterations." },
+    {
+      title: "Skills",
+      text: "Three directions, each backed by work in the portfolio.",
+      items: [
+        "Full web applications — interface, server side, and database",
+        "AI tools on local models, no cloud and no subscriptions",
+        "Manual routine turns into a script: spreadsheets, exports, repetitive operations",
+      ],
+    },
+    {
+      title: "Method",
+      text: "AI writes the code. I'm responsible for making sure it builds the right thing.",
+      items: [
+        "Decode — I turn a vague request into clear requirements, scenarios, and result boundaries.",
+        "Assemble — I use AI as a production tool for websites, bots, and automations.",
+        "Verify — I hunt for ambiguity and edge cases before they turn into problems.",
+        "Deliver — I show a working result, gather feedback, and carry it through iterations.",
+      ],
+    },
+    {
+      title: "How I can help",
+      text: "Tasks where routine can be replaced by a script, and chaos by a system.",
+      items: [
+        "Automate repetitive manual work: exports, spreadsheets, same-shape operations",
+        "Build a website: from a business card to an app with a database",
+        "Set up client outreach: shortlisting, personalized first messages, reply tracking",
+      ],
+    },
   ],
   about: {
-    heading: "ITHAKA is a path, not a mask.",
+    heading: "How I work",
     lead:
-      "I'm a graduate of the College of High Technologies, Information Systems and Programming track. I'm learning AI agents, automation, and development through real tasks — from websites to data pipelines.",
+      "Graduate of the College of High Technologies, Information Systems and Programming track.",
     paragraph:
-      "My strength isn't pretending to be an all-knowing developer — it's getting into a task fast, holding its logic, and assembling a solution with modern tools. Right now I'm deepening the fundamentals and turning practice into reproducible expertise.",
+      "Every project here started with a real task: a company website, medical center booking, fifteen hundred admission applications. Some were commissioned, some I simply got tired of doing by hand. I figure things out as I go and show unfinished work too — that's how you can see a task turning into a working system.",
+    loopLabel: "Working loop",
+    loop: ["Plan", "Code", "Build", "Test", "Release", "Monitor"],
+  },
+  scrollGate: {
+    label: "Keep scrolling — the portfolio opens",
+    ready: "Ready, opening the portfolio",
   },
   contact: {
     heading: ["There's chaos,", "that's ready", "to be built?"],
     action: "Message on Telegram",
     actionEmail: "Send an email",
+    actionGithub: "Browse the code",
     actionX: "Follow on X",
+  },
+  footer: {
+    brand: "ITHAKA/",
   },
 };
 

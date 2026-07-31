@@ -89,7 +89,6 @@ export default function PlayPage() {
         <a className="play-logo" href={`${basePath}/`}>ITHAKA_SYS</a>
         <div className="play-header-links">
           <a href={`${basePath}/`}>HOME</a>
-          <a href={`${basePath}/archive/`}>ARCHIVE</a>
         </div>
         <div className="play-head-status">
           <span className="play-pulse" /> SYSTEM LOCK

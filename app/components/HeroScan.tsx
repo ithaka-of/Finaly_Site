@@ -3,10 +3,10 @@
 import { useEffect, useRef } from "react";
 
 const LAYERS = [
-  "ithaka-normal-v5.png",
-  "ithaka-xray-v7.png",
-  "ithaka-statue-v6.png",
-  "ithaka-digital-v5.png",
+  "ithaka-normal-scan.webp",
+  "ithaka-xray-scan.webp",
+  "ithaka-statue-scan.webp",
+  "ithaka-digital-scan.webp",
 ];
 
 type HeroScanProps = {
@@ -27,6 +27,8 @@ export function HeroScan({ basePath }: HeroScanProps) {
 
     if (!scanner || !canvas || !line || !portrait || !ctx) return;
 
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const images = LAYERS.map((name) => {
       const image = new Image();
       image.decoding = "async";
@@ -38,31 +40,62 @@ export function HeroScan({ basePath }: HeroScanProps) {
     let width = 0;
     let height = 0;
     let dpr = 1;
-    let start = 0;
+    let startTime = 0;
+    let pausedAt = 0;
+    let visible = false;
+    let ready = false;
+
+    // Доля окна сканера от бокса портрета. Замеряется в начале каждого кадра, а
+    // не один раз: кеш на переверстку тут не работает — если снять его до того,
+    // как Hero устоялся, окно фиксируется смещённым и портрет меняется не на том
+    // уровне (ловилось глазом по кадыку). Экономия всё равно есть: раньше draw()
+    // дёргал getBoundingClientRect дважды и при двух вызовах за кадр выходило
+    // четыре принудительных пересчёта layout, теперь два.
+    let relX = 0;
+    let relY = 0;
+    let relW = 0;
+    let relH = 0;
 
     const geometry = () => {
       const rect = scanner.getBoundingClientRect();
-      dpr = window.devicePixelRatio || 1;
-      width = rect.width;
-      height = rect.height;
-      canvas.width = Math.max(1, Math.round(width * dpr));
-      canvas.height = Math.max(1, Math.round(height * dpr));
+      const portraitRect = portrait.getBoundingClientRect();
+
+      if (portraitRect.width && portraitRect.height) {
+        relX = (rect.left - portraitRect.left) / portraitRect.width;
+        relY = (rect.top - portraitRect.top) / portraitRect.height;
+        relW = rect.width / portraitRect.width;
+        relH = rect.height / portraitRect.height;
+      }
+
+      // canvas трогаем только когда размер реально изменился: присвоение width
+      // сбрасывает контекст, каждый кадр этого делать нельзя
+      if (rect.width !== width || rect.height !== height) {
+        width = rect.width;
+        height = rect.height;
+        // как в CursorField: выше двух пикселей на точку смысла нет, а на
+        // телефонах с dpr 3 это втрое меньше работы на каждом кадре
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.round(width * dpr));
+        canvas.height = Math.max(1, Math.round(height * dpr));
+      }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     const draw = (image: HTMLImageElement | undefined) => {
       if (!image?.naturalWidth || !image.naturalHeight || !width || !height) return false;
+      if (!relW || !relH) return false;
 
-      const portraitRect = portrait.getBoundingClientRect();
-      const scannerRect = scanner.getBoundingClientRect();
-      if (!portraitRect.width || !portraitRect.height || !scannerRect.width || !scannerRect.height) return false;
-
-      const sx = ((scannerRect.left - portraitRect.left) / portraitRect.width) * image.naturalWidth;
-      const sy = ((scannerRect.top - portraitRect.top) / portraitRect.height) * image.naturalHeight;
-      const sw = (scannerRect.width / portraitRect.width) * image.naturalWidth;
-      const sh = (scannerRect.height / portraitRect.height) * image.naturalHeight;
-
-      ctx.drawImage(image, sx, sy, sw, sh, 0, 0, width, height);
+      ctx.drawImage(
+        image,
+        relX * image.naturalWidth,
+        relY * image.naturalHeight,
+        relW * image.naturalWidth,
+        relH * image.naturalHeight,
+        0,
+        0,
+        width,
+        height,
+      );
       return true;
     };
 
@@ -86,13 +119,16 @@ export function HeroScan({ basePath }: HeroScanProps) {
     };
 
     const frame = (now: number) => {
-      if (!width || !height || !images.length || images.some((image) => !image.complete || !image.naturalWidth)) {
-        raf = requestAnimationFrame(frame);
+      if (!visible) {
+        raf = 0;
+        pausedAt = performance.now();
         return;
       }
 
+      geometry();
+
       const phaseDuration = 2600;
-      const t = (now - start) % (phaseDuration * LAYERS.length);
+      const t = (now - startTime) % (phaseDuration * LAYERS.length);
       const phase = Math.floor(t / phaseDuration) % images.length;
       const progress = (t % phaseDuration) / phaseDuration;
       const down = phase % 2 === 0;
@@ -101,7 +137,6 @@ export function HeroScan({ basePath }: HeroScanProps) {
       const currentImage = images[phase];
       const nextImage = images[next];
 
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
       if (!currentImage?.naturalWidth || !nextImage?.naturalWidth) {
         raf = requestAnimationFrame(frame);
@@ -120,19 +155,70 @@ export function HeroScan({ basePath }: HeroScanProps) {
       raf = requestAnimationFrame(frame);
     };
 
-    const resizeObserver = new ResizeObserver(geometry);
+    const start = () => {
+      if (raf || !visible || !ready || reduce) return;
+      // время, проведённое вне экрана, вычитаем — иначе при возврате панели
+      // фаза перескочит и скан дёрнется
+      if (pausedAt) {
+        startTime += performance.now() - pausedAt;
+        pausedAt = 0;
+      }
+      raf = requestAnimationFrame(frame);
+    };
+
+    const stop = () => {
+      if (!raf) return;
+      cancelAnimationFrame(raf);
+      raf = 0;
+      pausedAt = performance.now();
+    };
+
+    // при reduced-motion окно не должно оставаться пустым — показываем первый слой
+    const drawStatic = () => {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+      draw(images[0]);
+      line.style.transform = `translate3d(0, ${height / 2}px, 0) translateY(-50%)`;
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      geometry();
+      if (ready && reduce) drawStatic();
+    });
     resizeObserver.observe(portrait);
     resizeObserver.observe(scanner);
 
+    // кадры идут только пока панель Hero действительно на экране: дек листает
+    // панели, и раньше скан продолжал жечь кадры, даже когда его не видно
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) {
+          // за время невидимости страницу могло переверстать
+          geometry();
+          if (ready && reduce) drawStatic();
+          else start();
+        } else {
+          stop();
+        }
+      },
+      { threshold: 0.02 },
+    );
+    io.observe(scanner);
+
     Promise.allSettled(images.map((image) => image.decode())).then(() => {
+      ready = true;
       geometry();
-      start = performance.now();
-      raf = requestAnimationFrame(frame);
+      startTime = performance.now();
+      pausedAt = 0;
+      if (reduce) drawStatic();
+      else start();
     });
 
     return () => {
       cancelAnimationFrame(raf);
       resizeObserver.disconnect();
+      io.disconnect();
     };
   }, [basePath]);
 

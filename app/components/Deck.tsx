@@ -8,14 +8,14 @@ import { createPortal } from "react-dom";
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const pad = (n: number) => String(n).padStart(2, "0");
-const pageLabels = ["MAIN/ITHAKA", "PROJECTS", "METHOD", "ABOUT", "CONTACT"];
+const defaultPageLabels = ["MAIN/ITHAKA", "SKILLS", "ABOUT", "CONTACT"];
 
 /**
  * Горизонтальный дек: каждая прямая дочерняя панель (`.deck-panel`) = один экран.
  * Листание колесом / клавишами / свайпом. На мобиле и при prefers-reduced-motion
  * дек выключается — панели становятся обычным вертикальным потоком (фолбэк).
  */
-export function Deck({ children, hint = "листай" }: { children: ReactNode; hint?: string }) {
+export function Deck({ children, hint = "листай", labels = defaultPageLabels }: { children: ReactNode; hint?: string; labels?: string[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const [count, setCount] = useState(0);
@@ -135,7 +135,7 @@ export function Deck({ children, hint = "листай" }: { children: ReactNode;
       }
     };
 
-    // Якоря (#projects и т.п.) → переход к слайду, где лежит цель.
+    // Якоря внутри текущей страницы → переход к слайду, где лежит цель.
     const onClick = (e: MouseEvent) => {
       if (!enabledRef.current) return;
       const target = e.target as HTMLElement;
@@ -186,7 +186,7 @@ export function Deck({ children, hint = "листай" }: { children: ReactNode;
                 onClick={() => go(i)}
               >
                 <span>{pad(i + 1)}</span>
-                {pageLabels[i] ?? `PAGE ${pad(i + 1)}`}
+                {labels[i] ?? `PAGE ${pad(i + 1)}`}
               </button>
             );
           })}
@@ -205,7 +205,7 @@ export function Deck({ children, hint = "листай" }: { children: ReactNode;
       {enabled && count > 1 && (
         <>
           <div className={`deck-hint${index === 0 ? "" : " is-hidden"}`} aria-hidden="true">
-            {hint} <span>→</span>
+            {hint} <span className="deck-hint-arrow" aria-hidden="true" />
           </div>
         </>
       )}

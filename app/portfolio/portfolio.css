@@ -1,0 +1,412 @@
+.portfolio-shell {
+  min-height: 100svh;
+  background:
+    linear-gradient(rgba(1, 222, 130, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(1, 222, 130, .04) 1px, transparent 1px),
+    var(--ink);
+  background-size: 64px 64px;
+  color: var(--paper);
+}
+
+.portfolio-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 76px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 18px;
+  padding: 0 3vw;
+  border-bottom: 1px solid var(--line);
+  background: rgba(2, 14, 14, .88);
+  backdrop-filter: blur(14px);
+}
+
+.portfolio-logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 25px;
+  letter-spacing: .08em;
+}
+
+.portfolio-header nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.portfolio-header nav a,
+.portfolio-lang-toggle {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  color: var(--muted);
+  background: rgba(2, 14, 14, .66);
+  font: 10px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: .2s ease;
+}
+
+.portfolio-header nav a:hover,
+.portfolio-lang-toggle:hover {
+  border-color: var(--mint);
+  color: var(--paper);
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 26px);
+  padding: clamp(20px, 3vw, 44px) 3vw clamp(80px, 8vw, 128px);
+}
+
+.portfolio-card {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto auto;
+  gap: 18px;
+  min-height: 590px;
+  padding: clamp(18px, 2vw, 28px);
+  border: 1px solid var(--line);
+  background: rgba(5, 18, 17, .78);
+  overflow: hidden;
+}
+
+.portfolio-card::before {
+  content: attr(data-card-index);
+  position: absolute;
+  right: 14px;
+  bottom: 8px;
+  color: rgba(241, 240, 234, .055);
+  font: 10px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.portfolio-card-top,
+.portfolio-card-meta,
+.portfolio-links {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font: 9px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.portfolio-card-top span:first-child,
+.portfolio-card-top span:last-child {
+  color: var(--mint);
+}
+
+.portfolio-status-badge {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  color: var(--paper);
+  background: rgba(2, 14, 14, .7);
+  font: 10px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.portfolio-card--live .portfolio-status-badge {
+  border-color: rgba(1, 222, 130, .72);
+  color: var(--mint);
+}
+
+.portfolio-card--progress .portfolio-status-badge {
+  border-color: var(--mint);
+  color: var(--ink);
+  background: var(--mint);
+}
+
+.portfolio-preview {
+  position: relative;
+  z-index: 1;
+  min-height: 210px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(1, 222, 130, .34);
+  background:
+    linear-gradient(135deg, rgba(1, 222, 130, .08), transparent 55%),
+    rgba(2, 14, 14, .72);
+}
+
+.portfolio-preview--image {
+  min-height: 0;
+  border-style: solid;
+}
+
+.portfolio-preview-button {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border: 0;
+  padding: 0;
+  background: rgba(2, 14, 14, .82);
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.portfolio-preview-button img,
+.portfolio-thumb img,
+.portfolio-lightbox-frame img {
+  object-fit: contain;
+}
+
+.portfolio-preview-button:hover img,
+.portfolio-thumb:hover img {
+  filter: brightness(1.12);
+}
+
+.portfolio-thumbs {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.portfolio-thumb {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--line);
+  padding: 0;
+  background: rgba(2, 14, 14, .72);
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.portfolio-preview span,
+.portfolio-placeholder,
+.portfolio-links span {
+  color: var(--muted);
+  font: 10px var(--font-geist-mono), monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.portfolio-card-main {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.portfolio-card-main h2 {
+  margin: 0 0 22px;
+  font-size: clamp(24px, 2.6vw, 42px);
+  line-height: 1.05;
+  letter-spacing: -.025em;
+}
+
+.portfolio-card-main dl {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+
+.portfolio-card-main div {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.portfolio-card-main dt {
+  color: var(--mint);
+  font: 9px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.portfolio-card-main dd {
+  margin: 0;
+  color: #b1bbb6;
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+.portfolio-links {
+  justify-content: flex-start;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.portfolio-links a,
+.portfolio-links span {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  padding: 9px 12px;
+}
+
+.portfolio-links a {
+  color: var(--paper);
+  transition: .2s ease;
+}
+
+.portfolio-links a:hover {
+  border-color: var(--mint);
+  color: var(--ink);
+  background: var(--mint);
+}
+
+.portfolio-links--empty .portfolio-story-only {
+  border-color: transparent;
+  padding-inline: 0;
+  color: var(--muted);
+}
+
+/* Хвост страницы: вход в мини-игру. Она лежит отдельным роутом /play, а на
+   главной для неё нет места — там первый экран и так плотный. */
+.portfolio-play {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  margin: 0 3vw clamp(60px, 7vw, 110px);
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--line);
+  background: rgba(2, 14, 14, .55);
+}
+
+.portfolio-play h2 {
+  margin: 0;
+  color: var(--mint);
+  font: 15px var(--font-geist-mono), monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.portfolio-play p {
+  max-width: 640px;
+  margin: 0;
+  color: #b1bbb6;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.portfolio-play-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--mint);
+  padding: 11px 22px;
+  color: var(--mint);
+  font: 12px var(--font-geist-mono), monospace;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  transition: .2s ease;
+}
+
+.portfolio-play-link:hover {
+  background: var(--mint);
+  color: var(--ink);
+}
+
+.portfolio-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 4vw, 56px);
+  background: rgba(2, 14, 14, .86);
+  backdrop-filter: blur(16px);
+  cursor: zoom-out;
+}
+
+.portfolio-lightbox-frame {
+  position: relative;
+  width: min(92vw, 1500px);
+  max-height: 86svh;
+  border: 1px solid var(--mint);
+  background: var(--ink);
+  overflow: hidden;
+  cursor: default;
+}
+
+.portfolio-lightbox-close {
+  position: fixed;
+  right: clamp(18px, 3vw, 42px);
+  top: clamp(16px, 3vw, 38px);
+  z-index: 101;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  background: rgba(2, 14, 14, .78);
+  color: var(--paper);
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.portfolio-lightbox-close:hover {
+  border-color: var(--mint);
+  color: var(--ink);
+  background: var(--mint);
+}
+
+.portfolio-card-meta {
+  padding-top: 4px;
+  justify-content: flex-start;
+}
+
+@media (max-width: 860px) {
+  .portfolio-header {
+    height: auto;
+    min-height: 64px;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 10px 5vw;
+  }
+
+  .portfolio-header nav {
+    grid-column: 1 / -1;
+    order: 3;
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .portfolio-header nav a {
+    flex: 1 1 0;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    padding: 24px 5vw 80px;
+  }
+
+  .portfolio-card {
+    min-height: 0;
+  }
+
+  .portfolio-thumbs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .portfolio-card-main div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

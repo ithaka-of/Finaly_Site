@@ -8,14 +8,19 @@
   --muted: #84938d;
   --line: rgba(241, 240, 234, 0.2);
   --mint: #01de82;
+  /* правая опора шапочного ряда: язык в шапке и SYSTEM ONLINE под ним считаются
+     от неё, чтобы стоять друг под другом и не разъезжаться при правках */
+  --rail-right: 2vw;
   /* акценты только для глитчей — три расходящихся канала (RGB-разъезд) */
   --cyan: #35e6ff;
   --magenta: #ff2e88;
   --deep: #05614b;
-  --font-geist-sans: Arial, "Helvetica Neue", sans-serif;
-  --font-geist-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --font-display: "Arial Narrow", Arial, sans-serif;
-  --font-body: Arial, "Helvetica Neue", sans-serif;
+  /* Пиксельная гарнитура (Pixelify Sans) на всех четырёх слотах — решение 29.07.
+     Системные шрифты остаются фолбэком на случай, если веб-шрифт не догрузился. */
+  --font-geist-sans: var(--font-pixel), Arial, "Helvetica Neue", sans-serif;
+  --font-geist-mono: var(--font-pixel), "SFMono-Regular", Consolas, monospace;
+  --font-display: var(--font-pixel), "Arial Narrow", Arial, sans-serif;
+  --font-body: var(--font-pixel), Arial, "Helvetica Neue", sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -25,6 +30,9 @@ body {
   background: var(--ink);
   color: var(--paper);
   font-family: var(--font-body);
+  /* Handjet рисует ýже и мельче прежней гарнитуры при том же кегле — базовый
+     размер поднят, иначе абзацы и блоки визуально сжимаются (правка 29.07). */
+  font-size: 18px;
   overflow-x: hidden;
 }
 ::selection { background: var(--mint); color: var(--ink); text-shadow: none; }
@@ -42,8 +50,17 @@ body::before {
 a { color: inherit; text-decoration: none; }
 button, a { -webkit-tap-highlight-color: transparent; }
 
+/* Иконки на кнопках вместо текстовых стрелок (29.07). Размер идёт от кегля
+   родителя, поэтому одна и та же иконка годится и для CTA, и для мелких ссылок. */
+.icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  vertical-align: -.18em;
+}
+
 .site-header {
-  --header-actions-space: clamp(216px, 19vw, 304px);
+  --header-actions-space: clamp(252px, 21vw, 336px);
   height: 76px;
   padding: 0;
   display: block;
@@ -60,14 +77,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
   letter-spacing: .08em;
 }
 .brand-slash { color: var(--mint); }
-.header-cta, .eyebrow, .status-line, .section-index {
+.header-cta, .status-line, .section-index {
   font-family: var(--font-geist-mono), monospace;
   text-transform: uppercase;
   letter-spacing: .13em;
 }
 .header-actions {
   position: absolute;
-  right: 3vw;
+  right: var(--rail-right);
   top: 50%;
   z-index: 3;
   display: flex;
@@ -85,12 +102,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 /* статус переехал из hero в шапку — живёт рядом с языком и CTA */
 .header-system { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-.header-status { display: inline-flex; align-items: center; font-size: 8px; color: var(--muted); white-space: nowrap; letter-spacing: .16em; }
+.header-status { display: inline-flex; align-items: center; font-size: 10px; color: var(--muted); white-space: nowrap; letter-spacing: .16em; }
 .header-system .status-dot { width: 6px; height: 6px; margin-right: 7px; box-shadow: 0 0 10px var(--mint); }
 .header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   border: 1px solid var(--mint);
-  padding: 12px 18px;
-  font-size: 11px;
+  padding: 12px 24px;
+  font-size: 13px;
+  white-space: nowrap;
   transition: .2s ease;
 }
 .header-cta:hover { background: var(--mint); color: var(--ink); }
@@ -102,7 +123,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   padding: 8px 12px;
   background: rgba(2, 14, 14, .78);
   color: var(--muted);
-  font: 11px var(--font-geist-mono), monospace;
+  font: 13px var(--font-geist-mono), monospace;
   text-transform: uppercase;
   letter-spacing: .12em;
   cursor: pointer;
@@ -148,13 +169,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .status-detail { color: var(--muted); margin-left: 30px; }
 .hero-status {
   position: absolute;
-  right: 3vw;
+  /* строка «SYSTEM ONLINE» шире кнопки языка на ~18px (88 против 71 — замерено),
+     поэтому при общей правой опоре она торчала бы влево. Сдвигаем на половину
+     разницы, чтобы её середина совпала с серединой кнопки над ней. */
+  right: calc(var(--rail-right) - 9px);
   top: 22px;
   z-index: 6;
   display: inline-flex;
   align-items: center;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 11px;
 }
 /* ITHAKA-подложка: левый край и ширина совпадают с заголовком ниже,
    поэтому позиционируется от того же 3vw, а не от края экрана */
@@ -170,7 +194,15 @@ button, a { -webkit-tap-highlight-color: transparent; }
      43 / 2.4255 = 17.73vw, 620 / 2.4255 = 256px — так оба края сходятся на любой ширине. */
   font-size: min(17.73vw, 256px);
   line-height: .78;
-  letter-spacing: -.035em;
+  /* Трекинг положительный не для «воздуха», а вынужденно: у глифа «T» в Handjet
+     отрицательные боковые бэринги — чернила выходят за свою ячейку на ~11px с
+     каждой стороны (замерено через actualBoundingBox), тогда как у H/A/K поля
+     нормальные, −10.6px. Из-за этого пара «IT» шла с перекрытием −10.3px, а «TH»
+     впритык, при зазоре +23px у остальных пар. Обнуления трекинга не хватило:
+     вылет «T» заложен в шрифте. .041em перекрывает его и оставляет пары
+     раздельными. Кегль подгоняет fit() из page.tsx по ширине заголовка, поэтому
+     строка не разъезжается — но за раздвижку он платит уменьшением размера. */
+  letter-spacing: .05em;
   transform: scaleX(.84);
   transform-origin: left center;
   white-space: nowrap;
@@ -183,7 +215,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
   z-index: 3;
   width: min(43vw, 620px);
 }
-.eyebrow { color: var(--mint); font-size: 10px; line-height: 1.5; }
 .hero-copy h1, .section-heading h2, .method h2, .contact h2 {
   margin: 13px 0 18px;
   font-family: var(--font-display);
@@ -195,7 +226,26 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .hero-copy h1 { font-size: clamp(48px, 4.85vw, 78px); }
 .hero-copy h1 span { display: block; white-space: nowrap; }
 .hero-copy > p { max-width: 530px; color: #b1bbb6; font-size: 15px; line-height: 1.65; }
-.hero-actions { margin-top: 28px; display: flex; align-items: center; gap: 28px; }
+.hero-skills {
+  max-width: 560px;
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.hero-skills span {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  padding: 6px 9px;
+  color: var(--muted);
+  background: rgba(2, 14, 14, .62);
+  font: 11px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.hero-actions { margin-top: 22px; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; max-width: 620px; }
 .button {
   min-width: 242px;
   padding: 17px 19px;
@@ -203,7 +253,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  font: 500 11px var(--font-geist-mono), monospace;
+  font: 500 13px var(--font-geist-mono), monospace;
   text-transform: uppercase;
   letter-spacing: .12em;
   transition: .22s ease;
@@ -211,6 +261,28 @@ button, a { -webkit-tap-highlight-color: transparent; }
   gap: 18px;
 }
 .button:hover { color: var(--ink); background: var(--mint); }
+.button-secondary {
+  border-color: var(--line);
+  color: var(--paper);
+  background: rgba(2, 14, 14, .54);
+}
+.button-secondary:hover { border-color: var(--mint); }
+.hero-action-primary { min-width: 210px; }
+.hero-action-secondary { min-width: 150px; }
+.hero-resume-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font: 13px var(--font-geist-mono), monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  transition: color .2s ease;
+}
+.hero-resume-link:hover { color: var(--mint); }
+.hero-resume-link span { color: var(--mint); transition: transform .2s ease; }
+.hero-resume-link:hover span { transform: translateY(3px); }
 .button span {
   width: 18px;
   height: 18px;
@@ -223,7 +295,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .button:hover span { transform: translateX(3px); }
 .text-link span { transition: transform .2s ease; }
 .text-link:hover span { transform: translate(4px, -2px); }
-.text-link { font: 11px var(--font-geist-mono), monospace; text-transform: uppercase; letter-spacing: .1em; }
+.text-link { font: 13px var(--font-geist-mono), monospace; text-transform: uppercase; letter-spacing: .1em; }
 .text-link:hover { color: var(--mint); }
 
 .hero-art {
@@ -260,17 +332,6 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
 .method-title, .method-right, .about-art, .about-copy,
 .contact h2, .contact-top { position: relative; z-index: 1; }
 
-.hero-chevron {
-  position: absolute;
-  z-index: 1;
-  color: var(--paper);
-  font-family: var(--font-display);
-  font-size: min(75vw, 920px);
-  font-weight: 900;
-  line-height: .8;
-  right: clamp(-92px, -4vw, -28px); top: 1vh;
-  opacity: .92;
-}
 .scan-window {
   position: absolute;
   z-index: 4;
@@ -326,7 +387,7 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
   left: 4%;
   bottom: 4%;
   color: var(--ink);
-  font: 8px/1.45 var(--font-geist-mono), monospace;
+  font: 10px/1.45 var(--font-geist-mono), monospace;
   display: flex;
   flex-direction: column;
   pointer-events: none;
@@ -342,14 +403,16 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
   writing-mode: vertical-rl;
 }
 .side-serif { font: 700 48px var(--font-display); letter-spacing: -.04em; }
-.side-mono, .side-index { color: var(--mint); font: 10px var(--font-geist-mono), monospace; letter-spacing: .12em; }
+.side-mono, .side-index { color: var(--mint); font: 12px var(--font-geist-mono), monospace; letter-spacing: .12em; }
 .side-index { margin-top: 24px; color: var(--muted); }
 .ticker { overflow: hidden; border-bottom: 1px solid var(--line); background: var(--mint); color: var(--ink); }
 .ticker-track {
   width: max-content; height: 38px; display: flex; align-items: center; gap: 28px;
-  font: 600 10px var(--font-geist-mono), monospace; letter-spacing: .15em;
+  font: 600 12px var(--font-geist-mono), monospace; letter-spacing: .15em;
   animation: ticker 28s linear infinite;
 }
+/* разделитель квадратом вместо символа «✦» — его в пиксельном шрифте нет */
+.ticker-track i { display: inline-block; width: 5px; height: 5px; margin-left: 14px; background: var(--ink); vertical-align: middle; }
 .method-ticker {
   grid-column: 1 / -1;
   width: 100vw;
@@ -358,130 +421,50 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
 }
 
 .section { padding: clamp(88px, 10vw, 150px) 3vw; }
-.section-index { color: var(--muted); font-size: 11px; }
+.section-index { color: var(--muted); font-size: 13px; }
 .section-heading { display: grid; grid-template-columns: .55fr 1.1fr .75fr; gap: 6vw; align-items: end; margin-bottom: 72px; }
-.section-heading h2 { font-size: clamp(58px, 8vw, 124px); margin: 0; }
-.section-intro { color: #9fa9a5; line-height: 1.75; max-width: 410px; font-size: 14px; }
-.project-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
-.project-card {
-  min-height: 540px;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: 24px;
-  display: flex; flex-direction: column;
-  position: relative; overflow: hidden;
-  transition: background .25s ease;
-}
-.project-card:hover { background: rgba(1,222,130,.035); }
-.project-top, .project-meta {
-  display: grid; grid-template-columns: 48px 1fr auto; gap: 16px;
-  font: 9px var(--font-geist-mono), monospace; letter-spacing: .1em; color: var(--muted);
-}
-.project-arrow { color: var(--mint); font-size: 18px; transition: transform .2s ease; }
-.project-card:hover .project-arrow { transform: translate(5px, -5px); }
-.project-visual {
-  height: 220px; margin: 25px 0; position: relative;
-  background: linear-gradient(135deg, rgba(1,222,130,.09), transparent 55%), #041211;
-  border: 1px solid rgba(1,222,130,.14);
-  overflow: hidden;
-}
-.project-grid-lines {
-  position: absolute; inset: 0;
-  background-image: linear-gradient(rgba(1,222,130,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(1,222,130,.07) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-.project-orbit { position: absolute; width: 210px; height: 210px; border: 1px solid var(--mint); border-radius: 50%; left: 50%; top: 50%; transform: translate(-50%,-50%); opacity: .4; }
-.project-orbit::before, .project-orbit::after { content: ""; position: absolute; background: var(--mint); opacity: .6; }
-.project-orbit::before { width: 1px; height: 130%; left: 50%; top: -15%; }
-.project-orbit::after { height: 1px; width: 130%; top: 50%; left: -15%; }
-.project-glyph { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%,-50%); font-family: var(--font-display); font-size: 140px; font-weight: 800; line-height: .8; color: var(--paper); opacity: .86; }
-.project-card:nth-child(2) .project-glyph { color: transparent; -webkit-text-stroke: 1px var(--paper); }
-.project-card:nth-child(3) .project-visual { background: linear-gradient(145deg, #eee 0 45%, #151918 45%); }
-.project-card:nth-child(3) .project-glyph { color: var(--ink); }
-.project-card h3 { font-size: clamp(25px, 2.3vw, 38px); line-height: 1.08; max-width: 620px; margin: 0 0 15px; }
-.project-card > p { max-width: 620px; color: #9fa9a5; line-height: 1.7; font-size: 13px; }
-.project-meta { grid-template-columns: 1fr auto; margin-top: auto; padding-top: 20px; border-top: 1px solid var(--line); }
-.project-meta span:last-child { color: var(--mint); }
-
-/* --- Кейсы: сетка карточек 2×2 (стиль референса) --- */
-.cases-panel { background: var(--ink); }
-.cases-head { display: grid; grid-template-columns: auto 1fr auto; gap: clamp(20px, 4vw, 60px); align-items: end; margin-bottom: clamp(20px, 3vh, 38px); }
-/* заголовок панели + подпись, приклеенная к его правому верхнему углу —
-   тот же приём, что у .method-head: обёртка по ширине текста, kicker абсолютом */
-.cases-head-inner { position: relative; display: inline-block; width: min-content; }
-.cases-panel h2 { font-family: var(--font-display); text-transform: uppercase; font-weight: 900; letter-spacing: -.025em; line-height: .93; font-size: clamp(38px, 4.4vw, 72px); margin: 0; }
-.cases-kicker { position: absolute; right: 0; bottom: 100%; margin-bottom: 6px; text-align: right; white-space: nowrap; }
-.cases-kicker .section-index { color: var(--muted); }
-.cases-kicker .eyebrow { color: var(--mint); margin: 3px 0 0; }
-/* интро уехало от центра к правому краю, к счётчику */
-.cases-intro { justify-self: end; max-width: 420px; color: #9fa9a5; font-size: 13px; line-height: 1.65; margin: 0; text-align: right; }
-.cases-count { font: 10px var(--font-geist-mono), monospace; color: var(--muted); letter-spacing: .14em; text-align: right; white-space: nowrap; }
-.cases-count strong { font-family: var(--font-display); font-size: 30px; font-weight: 800; color: var(--paper); margin-right: 5px; }
-.cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(14px, 1.6vw, 22px); }
-.case-card {
-  position: relative; overflow: hidden;
-  display: flex; flex-direction: column;
-  min-width: 0;
-  min-height: 260px;
-  padding: clamp(18px, 1.8vw, 26px);
-  border: 1px solid var(--line);
-  background: linear-gradient(150deg, rgba(1,222,130,.06), transparent 58%), var(--panel);
-  transition: transform .28s ease, border-color .28s ease, background .28s ease;
-}
-.case-card::before {
-  content: attr(data-glyph);
-  position: absolute; right: -8px; bottom: -40px; z-index: 0;
-  font-family: var(--font-display); font-weight: 800; font-size: 160px; line-height: .8;
-  color: transparent; -webkit-text-stroke: 1px rgba(1,222,130,.12);
-  pointer-events: none;
-}
-a.case-card:hover { transform: translateY(-6px); border-color: var(--mint); background: linear-gradient(150deg, rgba(1,222,130,.13), transparent 58%), var(--panel); }
-.case-card-top { position: relative; z-index: 1; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; font: 9px var(--font-geist-mono), monospace; letter-spacing: .12em; color: var(--muted); }
-/* номер вписан в моно-строку карточки, а не выбивается крупным минтом:
-   роль «номера» играет контурный глиф в углу (.case-card::before) */
-.case-card-index { font: 9px var(--font-geist-mono), monospace; letter-spacing: .12em; color: var(--muted); }
-.case-card-index::after { content: "/"; margin-left: 9px; color: rgba(241, 240, 234, .3); }
-.case-card-code { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-a.case-card:hover .case-card-index { color: var(--mint); }
-.case-card-arrow { color: var(--mint); font-size: 15px; transition: transform .2s ease; }
-a.case-card:hover .case-card-arrow { transform: translate(4px, -4px); }
-.case-card-mid { position: relative; z-index: 1; min-width: 0; margin: clamp(14px, 2vh, 22px) 0; }
-.case-card-mid h3 { font-family: var(--font-body); font-size: clamp(18px, 1.55vw, 26px); font-weight: 850; line-height: 1.08; letter-spacing: -.01em; text-transform: none; margin: 0 0 9px; overflow-wrap: anywhere; }
-.case-card-proof { display: block; max-width: 100%; margin: 0 0 10px; color: var(--mint); font: clamp(7.4px, .66vw, 9px) var(--font-geist-mono), monospace; line-height: 1.42; letter-spacing: .1em; text-transform: uppercase; overflow-wrap: anywhere; }
-.case-card-mid p { color: #9fa9a5; font-size: clamp(10.5px, .86vw, 12.5px); line-height: 1.46; max-width: 100%; margin: 0; overflow-wrap: anywhere; }
-.case-card-meta { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); font: clamp(7.2px, .58vw, 8.5px) var(--font-geist-mono), monospace; line-height: 1.35; letter-spacing: .1em; color: var(--muted); }
-.case-card-meta span:last-child { color: var(--mint); white-space: nowrap; }
-
+.section-heading h2 { font-size: clamp(63px, 8.7vw, 135px); margin: 0; }
+.section-intro { color: #9fa9a5; line-height: 1.75; max-width: 410px; font-size: 16px; }
 .method { display: grid; grid-template-columns: .8fr 1.2fr; gap: 7vw; border-top: 1px solid var(--line); }
 .method-title { position: relative; }
 .method-head { position: relative; display: inline-block; }
-.about-kicker { position: absolute; bottom: 100%; left: 0; margin-bottom: 10px; }
 .method-right { display: flex; flex-direction: column; }
-/* подпись сдвинута вниз, но осталась справа: встаёт вровень с первой строкой
-   заголовка — там пусто, т.к. заголовок свёрстан по min-content (слово в строку) */
-.method-kicker { position: absolute; right: 0; left: auto; top: 0; bottom: auto; text-align: right; white-space: nowrap; }
-.method-kicker .eyebrow { margin: 3px 0 0; }
-.method h2 { font-size: clamp(70px, 9vw, 140px); margin: 0 0 22px; }
-.method-note { display: flex; flex-direction: column; gap: 8px; color: var(--muted); font: 10px var(--font-geist-mono), monospace; letter-spacing: .12em; }
+.method h2 { font-size: clamp(76px, 9.8vw, 152px); margin: 0 0 22px; }
+.method-note { display: flex; flex-direction: column; gap: 8px; color: var(--muted); font: 12px var(--font-geist-mono), monospace; letter-spacing: .12em; }
 .method-note span { animation: noteGlow 6s ease-in-out infinite; }
 .method-note span:nth-child(2) { animation-delay: 2s; }
 .method-note span:nth-child(3) { animation-delay: 4s; }
 .method-figure { display: flex; align-items: center; gap: 14px; margin-top: 34px; }
 .method-count { font-family: var(--font-display); font-weight: 800; font-size: 40px; line-height: 1; color: var(--paper); }
-.method-count-label { font: 10px var(--font-geist-mono), monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.method-count-label { font: 12px var(--font-geist-mono), monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .method-bars { display: inline-flex; gap: 5px; margin-left: 8px; }
 .method-bars i { width: 3px; height: 24px; background: var(--line); }
 .method-bars i:first-child { background: var(--mint); }
 .capability-list { border-top: 1px solid var(--line); }
 .capability { width: 100%; display: grid; grid-template-columns: 54px 1fr 24px; column-gap: 24px; align-items: start; padding: 30px 12px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; transition: background .2s ease; }
 .capability:hover { background: rgba(1, 222, 130, .03); }
-.capability > span, .capability i { color: var(--mint); font: 10px var(--font-geist-mono), monospace; }
+.capability > span, .capability i { color: var(--mint); font: 12px var(--font-geist-mono), monospace; }
 .capability > span { grid-column: 1; grid-row: 1; }
 .capability h3 { grid-column: 2; grid-row: 1; margin: 0; font-size: 25px; transition: color .2s ease; }
 .capability:hover h3 { color: var(--mint); }
 .capability i { grid-column: 3; grid-row: 1; justify-self: end; font-size: 22px; font-style: normal; line-height: 1; transition: transform .2s ease; }
 .capability p { grid-column: 2; grid-row: 2; margin: 0; max-height: 0; opacity: 0; overflow: hidden; color: #9fa9a5; font-size: 13px; line-height: 1.65; transition: max-height .32s ease, opacity .32s ease, margin .32s ease; }
 .capability.is-open p { max-height: 220px; opacity: 1; margin-top: 12px; }
+.capability ul {
+  grid-column: 2;
+  grid-row: 3;
+  margin: 0;
+  padding-left: 17px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  color: #9fa9a5;
+  font-size: 14px;
+  line-height: 1.55;
+  transition: max-height .32s ease, opacity .32s ease, margin .32s ease;
+}
+.capability.is-open ul { max-height: 260px; opacity: 1; margin-top: 10px; }
+.capability li + li { margin-top: 7px; }
 .capability.is-open i { transform: rotate(45deg); }
 
 .about { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; background: var(--ink); color: var(--paper); }
@@ -491,10 +474,10 @@ a.case-card:hover .case-card-arrow { transform: translate(4px, -4px); }
 .about-circle { position: absolute; width: 300px; height: 300px; border: 1px solid var(--paper); border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); font-size: 130px; font-weight: 800; left: 50%; top: 50%; transform: translate(-50%,-50%); }
 .chaos-field { position: absolute; inset: 0; z-index: 1; }
 .chaos-field canvas { display: block; width: 100%; height: 100%; cursor: crosshair; }
-.chaos-hint { position: absolute; left: 14px; bottom: 12px; font: 10px var(--font-geist-mono), monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
+.chaos-hint { position: absolute; left: 14px; bottom: 12px; font: 12px var(--font-geist-mono), monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
 .chaos-field.is-solved .chaos-hint { color: var(--mint); }
 .chaos-controls { position: absolute; right: 12px; top: 12px; z-index: 3; display: flex; gap: 8px; }
-.chaos-btn { padding: 6px 11px; border: 1px solid var(--line); background: rgba(2,14,14,.55); color: var(--muted); font: 9px var(--font-geist-mono), monospace; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: .18s ease; }
+.chaos-btn { padding: 6px 11px; border: 1px solid var(--line); background: rgba(2,14,14,.55); color: var(--muted); font: 11px var(--font-geist-mono), monospace; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: .18s ease; }
 .chaos-btn:hover { border-color: var(--mint); color: var(--paper); }
 .chaos-btn.is-on { border-color: var(--mint); color: var(--ink); background: var(--mint); }
 .chaos-toast {
@@ -507,7 +490,7 @@ a.case-card:hover .case-card-arrow { transform: translate(4px, -4px); }
   border: 1px solid rgba(1,222,130,.34);
   background: rgba(2,14,14,.78);
   color: var(--paper);
-  font: 9px/1.45 var(--font-geist-mono), monospace;
+  font: 11px/1.45 var(--font-geist-mono), monospace;
   letter-spacing: .11em;
   text-transform: uppercase;
   opacity: 0;
@@ -517,20 +500,156 @@ a.case-card:hover .case-card-arrow { transform: translate(4px, -4px); }
 }
 .chaos-toast.is-visible { opacity: 1; transform: translateY(0); }
 .about-copy { position: relative; }
-.about-copy .eyebrow { color: var(--mint); margin-top: 4px; }
-.about-copy h2 { font-family: var(--font-display); font-size: clamp(44px, 5.7vw, 88px); font-weight: 750; line-height: .98; letter-spacing: -.04em; margin: 0 0 28px; }
+.about-copy h2 { font-family: var(--font-display); font-size: clamp(48px, 6.2vw, 96px); font-weight: 750; line-height: .98; letter-spacing: -.04em; margin: 0 0 28px; }
 .about-copy > p { color: #9fa9a5; line-height: 1.75; max-width: 700px; }
 .about-lead { font-size: 18px; color: var(--paper) !important; }
-.about-links { display: flex; gap: 12px; margin-top: 36px; }
-.about-links a { padding: 13px 17px; border: 1px solid var(--line); font: 11px var(--font-geist-mono),monospace; text-transform: uppercase; transition: .2s; }
-.about-links a:hover { background: var(--mint); color: var(--ink); }
+/* Рабочий цикл — стандартные фазы разработки, вынесенные в HUD-цепочку вместо
+   абзаца. Ширина совпадает с абзацем выше (700px), поля равной ширины через grid.
+   Подсветка бежит по шагам по кругу: горящий шаг мятный, остальные приглушены. */
+.about-loop { margin-top: 28px; max-width: 700px; }
+.about-loop-label {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--mint);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 16px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.about-loop ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  /* число колонок задаётся инлайном из page.tsx — оно зависит от числа шагов */
+  gap: 10px;
+}
+.about-loop li {
+  position: relative;
+  grid-column-end: span 4;   /* пара к LOOP_SPAN в page.tsx */
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  padding: 8px 12px;
+  text-align: center;
+  border: 1px solid var(--line);
+  color: #5d6b66;
+  font: 15px/1.2 var(--font-geist-mono), monospace;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  animation: loopPulse calc(var(--loop-count, 6) * 1.2s) ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 1.2s);
+}
+/* Шеврон у правого края ступени — указывает на следующую, вниз-вправо, повторяя
+   направление каскада. Поэтому висит на всех ступенях, кроме последней.
+   Рисуется рамками, а не символом: стрелочных глифов в Handjet нет, символ
+   подменялся бы посторонним шрифтом — та же причина, что и у Icons.tsx. */
+.about-loop li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--line);
+  border-bottom: 1.5px solid var(--line);
+  transform: translateY(-50%);
+  opacity: .85;
+}
+/* Волна мягкая: подсветка не заливает ступень, а подсвечивает текст и рамку.
+   Фронты разнесены (разгорается 5→14%, держится до 22%, гаснет к 36%), поэтому
+   переход читается как перетекание, а не как мигание. */
+@keyframes loopPulse {
+  0%, 5% {
+    color: #5d6b66;
+    background: transparent;
+    border-color: var(--line);
+    box-shadow: none;
+  }
+  14%, 22% {
+    color: var(--mint);
+    background: rgba(1, 222, 130, .07);
+    border-color: rgba(1, 222, 130, .55);
+    box-shadow: 0 0 14px rgba(1, 222, 130, .12);
+  }
+  36%, 100% {
+    color: #5d6b66;
+    background: transparent;
+    border-color: var(--line);
+    box-shadow: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-loop li { animation: none; }
+}
+/* на узком экране лесенка не читается — ступени разворачиваются в столбец.
+   !important нужен, потому что число колонок приходит инлайн-стилем. */
+@media (max-width: 768px) {
+  .about-loop ol { grid-template-columns: 1fr !important; }
+  .about-loop li { grid-column: 1 / -1 !important; }
+  /* в столбце поток идёт сверху вниз — шеврон уезжает под ступень и доворачивается */
+  .about-loop li:not(:last-child)::before {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -9px;
+    transform: translateX(-50%) rotate(45deg);
+  }
+}
+
+/* Шлюз последней панели: полоса копит прокрутку, на 100% уводит в портфолио. */
+.scroll-gate {
+  position: absolute;
+  left: auto;
+  right: 3vw;
+  bottom: clamp(26px, 4vh, 46px);
+  width: min(330px, 27vw);
+  z-index: 4;
+}
+.scroll-gate-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font: 12px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: color .3s ease;
+}
+.scroll-gate-value { color: var(--mint); }
+.scroll-gate-rail {
+  position: relative;
+  height: 5px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.scroll-gate-rail i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--gate-fill, 0%);
+  background: var(--mint);
+  box-shadow: 0 0 14px rgba(1, 222, 130, .55);
+  transition: width .16s linear;
+}
+.scroll-gate.is-done .scroll-gate-label { color: var(--mint); }
+.scroll-gate.is-done .scroll-gate-rail { border-color: var(--mint); }
+/* на мобиле дек выключен и панель идёт обычным потоком — полосе нужна вся ширина */
+@media (max-width: 768px) {
+  .scroll-gate { position: static; width: auto; margin-top: 34px; }
+}
 
 .contact { min-height: 85vh; position: relative; display: flex; flex-direction: column; justify-content: center; }
 .contact::after { content: "ITHAKA"; position: absolute; right: -3vw; bottom: -2vw; color: transparent; -webkit-text-stroke: 1px rgba(241,240,234,.13); font-family: var(--font-display); font-size: 260px; font-weight: 800; line-height: .8; z-index: -1; }
-.contact-top { position: absolute; left: 3vw; right: 3vw; top: 32px; display: flex; justify-content: space-between; color: var(--muted); font: 9px var(--font-geist-mono),monospace; letter-spacing: .13em; }
-.contact h2 { font-size: clamp(82px, 12vw, 190px); max-width: 1200px; margin: 0; }
+.contact-top { position: absolute; left: 3vw; right: 3vw; top: 32px; display: flex; justify-content: space-between; color: var(--muted); font: 11px var(--font-geist-mono),monospace; letter-spacing: .13em; }
+/* Точка выведена из потока — иначе она сдвигает «OPEN CHANNEL» вправо и подпись
+   не встаёт вровень с левым краем заголовка (у обоих отступ 3vw). */
+.contact-top .status-line { position: relative; }
+.contact-top .status-dot { position: absolute; right: calc(100% + 9px); top: 50%; margin: 0; transform: translateY(-50%); }
+.contact h2 { font-size: clamp(89px, 13vw, 207px); max-width: 1200px; margin: 0; }
 .contact-channels { position: relative; z-index: 1; width: min(100%, 1200px); margin: 40px auto 0; border-top: 1px solid var(--mint); }
-.contact-action { width: 100%; border-bottom: 1px solid var(--mint); padding: 20px clamp(22px, 4vw, 60px); display: flex; align-items: center; gap: 18px; font: 12px var(--font-geist-mono),monospace; text-transform: uppercase; letter-spacing: .16em; transition: .2s; }
+.contact-action { width: 100%; border-bottom: 1px solid var(--mint); padding: 20px clamp(22px, 4vw, 60px); display: flex; align-items: center; gap: 18px; font: 14px var(--font-geist-mono),monospace; text-transform: uppercase; letter-spacing: .16em; transition: .2s; }
 .contact-action-primary { background: linear-gradient(90deg, rgba(1, 222, 130, .12), rgba(1, 222, 130, .025) 55%, transparent); color: var(--mint); }
 .contact-action em { margin-left: auto; font-style: normal; text-transform: none; letter-spacing: .04em; color: var(--muted); transition: color .2s; }
 .contact-action-primary em { color: var(--paper); }
@@ -539,8 +658,7 @@ a.case-card:hover .case-card-arrow { transform: translate(4px, -4px); }
 .contact-action:hover em { color: var(--paper); }
 .contact-action:hover strong { transform: translate(7px,-5px); }
 
-footer { min-height: 90px; padding: 0 3vw; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; color: var(--muted); font: 9px var(--font-geist-mono),monospace; letter-spacing: .12em; }
-footer p:last-child { justify-self: end; }
+footer { min-height: 90px; padding: 0 3vw; border-top: 1px solid var(--line); display: flex; align-items: center; color: var(--muted); font: 11px var(--font-geist-mono),monospace; letter-spacing: .12em; }
 
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
 @keyframes rise { from{opacity:0;transform:translateY(25px) scaleX(.84)} to{opacity:1;transform:translateY(0) scaleX(.84)} }
@@ -635,10 +753,10 @@ footer p:last-child { justify-self: end; }
   .section-heading { grid-template-columns: .35fr 1fr; }
   .section-intro { grid-column: 2; }
   .method { gap: 4vw; }
-  .deck-dot { padding-inline: 8px; font-size: 9px; gap: 6px; }
+  .deck-dot { padding-inline: 8px; font-size: 11px; gap: 6px; }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .site-header { height: 64px; display: flex; justify-content: flex-end; align-items: center; padding: 0 5vw; gap: 16px; }
   .deck-header-slot { display: none; }
   .header-actions { position: static; margin-left: auto; gap: 0; transform: none; }
@@ -650,30 +768,31 @@ footer p:last-child { justify-self: end; }
   .hero-word { top: 7vh; font-size: 24vw; transform: scaleX(.9); }
   .hero-art {
     min-width: 0;
-    width: clamp(340px, 92vw, 500px);
+    width: clamp(312px, 80vw, 440px);
     aspect-ratio: 4 / 5;
     height: auto;
-    right: clamp(-84px, -18vw, -52px);
-    top: clamp(66px, 12svh, 104px);
-    opacity: .32;
+    right: clamp(-96px, -20vw, -60px);
+    top: clamp(56px, 8svh, 84px);
+    opacity: .24;
   }
-  .hero-chevron { font-size: 92vw; opacity: .18; right: clamp(-70px, -12vw, -32px); }
-  .scan-window { opacity: .62; }
+  .scan-window { opacity: .58; }
   .hero-copy { left: 5vw; width: 86vw; bottom: 22px; }
   .hero-copy h1 { font-size: clamp(34px, 9.4vw, 42px); line-height: .96; letter-spacing: -.055em; }
   .hero-copy h1 span { white-space: normal; overflow-wrap: anywhere; }
-  .hero-copy > p { max-width: 82vw; font-size: 12px; line-height: 1.5; }
-  .hero-actions { align-items: flex-start; flex-direction: column; gap: 12px; margin-top: 18px; }
-  .hero-actions .button { min-width: min(242px, 100%); padding: 14px 16px; }
+  .hero-copy > p { max-width: 82vw; font-size: 14px; line-height: 1.5; }
+  .hero-skills { margin-top: 12px; gap: 6px; max-width: 82vw; }
+  .hero-skills span { min-height: 24px; padding: 5px 7px; font-size: 10px; letter-spacing: .1em; }
+  .hero-actions { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; gap: 8px; width: min(320px, 100%); margin-top: 14px; }
+  .hero-actions .button { min-width: 0; width: 100%; min-height: 44px; padding: 11px 12px; font-size: 11px; gap: 8px; }
+  .hero-action-primary { grid-column: 1 / -1; }
+  .hero-resume-link { grid-column: 1 / -1; min-height: 28px; font-size: 11px; }
   .section { padding: 82px 5vw; }
   .section-heading { display: block; }
   .section-heading h2 { margin: 25px 0; font-size: 18vw; }
-  .project-grid { grid-template-columns: 1fr; }
-  .project-card { min-height: 500px; }
   .method { grid-template-columns: 1fr; }
   .method h2 { font-size: 20vw; }
   .capability { grid-template-columns: 34px 1fr 18px; }
-  .capability p { grid-column: 2; }
+  .capability p, .capability ul { grid-column: 2; }
   .capability i { grid-column: 3; grid-row: 1; }
   .about { grid-template-columns: 1fr; }
   .about-art { min-height: 390px; }
@@ -697,25 +816,6 @@ footer p:last-child { justify-self: end; }
    ========================================================= */
 .deck { position: relative; }
 .deck-track { display: flex; flex-direction: column; }
-
-/* --- Кейс-слайд: базовая (вертикальная) раскладка, работает и в фолбэке --- */
-.case-panel { padding: 82px 5vw; border-bottom: 1px solid var(--line); background: var(--ink); }
-.case-inner { width: 100%; max-width: 1400px; margin: 0 auto; }
-.case-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
-.case-tag { display: flex; flex-direction: column; gap: 6px; }
-.case-tag .section-index { color: var(--muted); }
-.case-tag .eyebrow { color: var(--mint); margin: 0; }
-.case-count { font: 10px var(--font-geist-mono), monospace; color: var(--muted); letter-spacing: .14em; white-space: nowrap; text-align: right; }
-.case-count strong { display: block; font-family: var(--font-display); font-size: 34px; font-weight: 800; color: var(--paper); }
-.case-chapter { margin: 22px 0 0; max-width: 660px; color: #9fa9a5; font-size: 13px; line-height: 1.7; }
-.case-body { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 72px); align-items: center; margin-top: 42px; }
-.case-visual { position: relative; width: 100%; max-width: 460px; aspect-ratio: 1; background: linear-gradient(135deg, rgba(1,222,130,.09), transparent 55%), #041211; border: 1px solid rgba(1,222,130,.14); overflow: hidden; }
-.case-code { font: 10px var(--font-geist-mono), monospace; letter-spacing: .16em; color: var(--mint); }
-.case-copy h2 { font-family: var(--font-display); font-size: clamp(30px, 4vw, 60px); font-weight: 850; line-height: 1.03; letter-spacing: -.02em; text-transform: none; margin: 16px 0 18px; }
-.case-copy > p { max-width: 620px; color: #9fa9a5; line-height: 1.7; font-size: 14px; margin: 0; }
-.case-meta { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); font: 9px var(--font-geist-mono), monospace; letter-spacing: .1em; color: var(--muted); }
-.case-meta span:last-child { color: var(--mint); }
-.case-cta { min-width: 0; width: fit-content; margin-top: 30px; }
 
 /* --- Режим дека включён --- */
 .deck.is-enabled { position: fixed; top: 76px; left: 0; right: 0; height: calc(100svh - 76px); overflow: hidden; z-index: 5; }
@@ -743,14 +843,6 @@ body.deck-on .site-header > nav { display: none; }
 /* Секции подгоняются под один экран: меньше паддинги, центрирование, кап заголовков */
 .deck.is-enabled .section { padding: clamp(26px, 4.5vh, 66px) clamp(28px, 5vw, 96px); }
 
-.deck.is-enabled .case-panel { display: flex; flex-direction: column; justify-content: center; padding: clamp(26px, 4.5vh, 60px) clamp(30px, 5vw, 100px); }
-.deck.is-enabled .case-body { margin-top: clamp(20px, 4vh, 44px); }
-.deck.is-enabled .case-visual { max-width: min(42vh, 420px); }
-
-.deck.is-enabled .cases-panel { display: flex; flex-direction: column; padding: clamp(26px, 4.5vh, 56px) clamp(30px, 5vw, 100px) clamp(84px, 11vh, 112px); }
-.deck.is-enabled .cases-grid { flex: 1 1 0; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); min-height: 0; }
-.deck.is-enabled .case-card { min-height: 0; }
-
 .deck.is-enabled .method { align-content: center; align-items: start; padding-bottom: clamp(68px, 9vh, 104px); }
 .deck.is-enabled .method h2 { font-size: clamp(40px, 6vw, 100px); margin-left: -0.03em; }
 .deck.is-enabled .method-head { width: min-content; }
@@ -758,7 +850,9 @@ body.deck-on .site-header > nav { display: none; }
 .deck.is-enabled .capability-list { min-height: min(52vh, 400px); }
 .deck.is-enabled .method-ticker { position: absolute; left: 50%; right: auto; bottom: 0; width: 100vw; margin: 0; transform: translateX(-50%); border-bottom: 0; }
 
-.deck.is-enabled .about { align-content: center; align-items: start; }
+/* по центру, а не по верху: колонка текста выросла после каскада «рабочего цикла»,
+   и прижатая к верху мини-игра повисала относительно неё (правка 29.07) */
+.deck.is-enabled .about { align-content: center; align-items: center; }
 .deck.is-enabled .about-art { min-height: 0; height: min(64vh, 480px); }
 .deck.is-enabled .about-copy h2 { font-size: clamp(34px, 4.4vw, 74px); margin: 0 0 20px; }
 
@@ -805,7 +899,7 @@ body.deck-on .site-header > nav { display: none; }
   border-right: 1px solid var(--line);
   background: transparent;
   color: var(--muted);
-  font: 10px var(--font-geist-mono), monospace;
+  font: 12px var(--font-geist-mono), monospace;
   letter-spacing: .1em;
   text-transform: uppercase;
   cursor: pointer;
@@ -819,7 +913,7 @@ body.deck-on .site-header > nav { display: none; }
   text-overflow: ellipsis;
 }
 .deck-dot:last-child { border-right: 0; }
-.deck-dot span { color: var(--paper); opacity: .58; font-size: 9px; }
+.deck-dot span { color: var(--paper); opacity: .58; font-size: 11px; }
 .deck-dot:hover { color: var(--paper); background: rgba(241, 240, 234, .06); }
 .deck-dot.is-filled {
   color: var(--paper);
@@ -841,22 +935,26 @@ body.deck-on .site-header > nav { display: none; }
   background: rgba(1,222,130,.11);
   box-shadow: inset 0 -2px 0 rgba(1,222,130,.34);
 }
-.deck-hint { position: fixed; right: clamp(40px, 6vw, 92px); bottom: clamp(52px, 7vh, 74px); z-index: 22; display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font: 10px var(--font-geist-mono), monospace; letter-spacing: .16em; text-transform: uppercase; transition: opacity .3s ease; }
+.deck-hint { position: fixed; right: clamp(40px, 6vw, 92px); bottom: clamp(52px, 7vh, 74px); z-index: 22; display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font: 12px var(--font-geist-mono), monospace; letter-spacing: .16em; text-transform: uppercase; transition: opacity .3s ease; }
 .deck-hint span { color: var(--mint); animation: hintNudge 1.4s ease-in-out infinite; }
+/* Стрелка нарисована рамками, а не символом «→»: в пиксельной гарнитуре
+   типографские стрелки отсутствуют и подменяются фолбэком. */
+.deck-hint-arrow { position: relative; display: inline-block; width: 20px; height: 2px; background: var(--mint); }
+.deck-hint-arrow::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid var(--mint);
+  border-right: 2px solid var(--mint);
+  transform: translateY(-50%) rotate(45deg);
+}
 .deck-hint.is-hidden { opacity: 0; pointer-events: none; }
 @keyframes hintNudge { 0%,100%{transform:translateX(0)} 50%{transform:translateX(5px)} }
 
 /* --- Фолбэк кейс-слайдов на узких экранах (дек здесь выключен) --- */
 @media (max-width: 768px) {
-  .case-panel { padding: 70px 5vw; }
-  .case-head { flex-wrap: wrap; }
-  .case-body { grid-template-columns: 1fr; gap: 28px; margin-top: 30px; }
-  .case-visual { max-width: 320px; }
-  .case-copy h2 { font-size: clamp(26px, 8vw, 40px); }
-  .cases-head { grid-template-columns: 1fr; gap: 12px; }
-  .cases-head-inner { width: auto; }
-  .cases-kicker { position: static; text-align: left; margin-bottom: 10px; white-space: normal; }
-  .cases-intro { justify-self: start; text-align: left; max-width: 100%; }
-  .cases-grid { grid-template-columns: 1fr; }
   .deck-header-controls, .deck-hint { display: none; }
 }
