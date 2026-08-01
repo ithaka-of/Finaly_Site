@@ -55,14 +55,14 @@ export type HomeDict = {
 };
 
 const ru: HomeDict = {
-  nav: { portfolio: "Портфолио", skills: "Что умею", about: "Обо мне", contact: "Контакт" },
+  nav: { portfolio: "Кейсы", skills: "Что умею", about: "Обо мне", contact: "Контакт" },
   hero: {
     lines: ["Из хаоса —", "в рабочую", "систему"],
     paragraph:
       "Собираю сайты, автоматизации и AI-инструменты. Беру задачу в том виде, в каком её описал заказчик, и довожу до состояния, которое можно открыть и показать.",
     skillsLabel: "Навыки",
     skills: ["Веб: фронт, бэк, база", "Локальные AI-модели", "Автоматизация рутины"],
-    ctaPortfolio: "Портфолио",
+    ctaPortfolio: "Кейсы",
     ctaContact: "Связаться",
     ctaResume: "Скачать резюме",
   },
@@ -127,25 +127,6 @@ const ru: HomeDict = {
       role: "Автор идеи и разработчик",
       statusLabel: "работает",
     },
-    {
-      title: "Личная агентная инфраструктура",
-      proof: "Ежедневные сводки, Telegram-доставка и база знаний",
-      description:
-        "Ежедневные сводки, Telegram-доставка, источники данных и база знаний. Полигон для изучения AI-агентов на собственных процессах.",
-      stack: "Claude Code, PowerShell-хуки, Telegram Bot API, Obsidian, SQLite FTS5, Ollama",
-      role: "Ставлю задачи, проверяю результат, свожу в систему",
-      statusLabel: "описание",
-    },
-    {
-      title: "price-radar",
-      proof:
-        "Извлечение цены работает и покрыто тестами; промпт доведён до стабильного ответа за четыре итерации",
-      description:
-        "Мониторинг цен на локальной модели: извлечение цены со страницы без облачных API, схема хранения снимков для сравнения «было / стало».",
-      stack: "Python, Playwright, Ollama, aiogram, SQLite",
-      role: "Делаю сам, параллельно разбираюсь в программировании",
-      statusLabel: "в работе",
-    },
   ],
   skillsSection: {
     heading: ["Что я", "умею"],
@@ -189,13 +170,13 @@ const ru: HomeDict = {
     lead:
       "Выпускник Колледжа высоких технологий, направление «Информационные системы и программирование».",
     paragraph:
-      "Каждый проект здесь начинался с живой задачи: сайт компании, запись в медцентр, полторы тысячи заявлений приёмной кампании. Что-то заказывали, что-то просто надоело делать руками. Разбираюсь по ходу и показываю в том числе незаконченное — так видно, как задача превращается в работающую систему.",
+      "Каждый проект здесь начинался с живой задачи: сайт компании, запись в медцентр, полторы тысячи заявлений приёмной кампании. Что-то заказывали, что-то просто надоело делать руками. Разбираюсь по ходу — так видно, как задача превращается в работающую систему.",
     loopLabel: "Рабочий цикл",
     loop: ["Планирование", "Разработка", "Сборка", "Тестирование", "Релиз", "Мониторинг"],
   },
   scrollGate: {
-    label: "Листай дальше — откроется портфолио",
-    ready: "Готово, открываю портфолио",
+    label: "Листай дальше — откроются кейсы",
+    ready: "Готово, открываю кейсы",
   },
   contact: {
     heading: ["Есть хаос,", "который пора", "собрать?"],
@@ -210,14 +191,14 @@ const ru: HomeDict = {
 };
 
 const en: HomeDict = {
-  nav: { portfolio: "Portfolio", skills: "Skills", about: "About", contact: "Contact" },
+  nav: { portfolio: "Cases", skills: "Skills", about: "About", contact: "Contact" },
   hero: {
     lines: ["Out of chaos —", "into a working", "system"],
     paragraph:
       "I build websites, automations, and AI tools. I take a task exactly as the client described it and bring it to a state you can open and show.",
     skillsLabel: "Skills",
     skills: ["Web: front, back, database", "Local AI models", "Routine automation"],
-    ctaPortfolio: "Portfolio",
+    ctaPortfolio: "Cases",
     ctaContact: "Contact",
     ctaResume: "Download CV",
   },
@@ -282,25 +263,6 @@ const en: HomeDict = {
       role: "Idea author and developer",
       statusLabel: "works",
     },
-    {
-      title: "Personal agent infrastructure",
-      proof: "Daily digests, Telegram delivery, and a knowledge base",
-      description:
-        "Daily digests, Telegram delivery, data sources, and a knowledge base. A testbed for learning AI agents on my own workflows.",
-      stack: "Claude Code, PowerShell hooks, Telegram Bot API, Obsidian, SQLite FTS5, Ollama",
-      role: "I set the tasks, verify the output, and wire it into a system",
-      statusLabel: "story only",
-    },
-    {
-      title: "price-radar",
-      proof:
-        "Price extraction works and is covered by tests; the prompt reached a stable answer in four iterations",
-      description:
-        "Price monitoring on a local model: extracting a price from a page without cloud APIs, plus a snapshot schema for before/after comparison.",
-      stack: "Python, Playwright, Ollama, aiogram, SQLite",
-      role: "Building it myself while learning to program",
-      statusLabel: "in progress",
-    },
   ],
   skillsSection: {
     heading: ["What I", "can do"],
@@ -312,7 +274,7 @@ const en: HomeDict = {
   capabilities: [
     {
       title: "Skills",
-      text: "Three directions, each backed by work in the portfolio.",
+      text: "Three directions, each backed by work in the cases.",
       items: [
         "Full web applications — interface, server side, and database",
         "AI tools on local models, no cloud and no subscriptions",
@@ -344,13 +306,13 @@ const en: HomeDict = {
     lead:
       "Graduate of the College of High Technologies, Information Systems and Programming track.",
     paragraph:
-      "Every project here started with a real task: a company website, medical center booking, fifteen hundred admission applications. Some were commissioned, some I simply got tired of doing by hand. I figure things out as I go and show unfinished work too — that's how you can see a task turning into a working system.",
+      "Every project here started with a real task: a company website, medical center booking, fifteen hundred admission applications. Some were commissioned, some I simply got tired of doing by hand. I figure things out as I go — that's how you can see a task turning into a working system.",
     loopLabel: "Working loop",
     loop: ["Plan", "Code", "Build", "Test", "Release", "Monitor"],
   },
   scrollGate: {
-    label: "Keep scrolling — the portfolio opens",
-    ready: "Ready, opening the portfolio",
+    label: "Keep scrolling — the cases open",
+    ready: "Ready, opening the cases",
   },
   contact: {
     heading: ["There's chaos,", "that's ready", "to be built?"],

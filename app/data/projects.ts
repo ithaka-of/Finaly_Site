@@ -71,18 +71,4 @@ export const projectsMeta: ProjectMeta[] = [
     statusTone: "story",
     screenshots: [{ src: "job_watcher.webp", width: 675, height: 1448 }],
   },
-  {
-    index: "05",
-    code: "AGENT LAB / R&D",
-    meta: "AI AGENTS · TELEGRAM · KNOWLEDGE",
-    status: "STORY ONLY",
-    statusTone: "story",
-  },
-  {
-    index: "06",
-    code: "PRICE-RADAR / IN PROGRESS",
-    meta: "PYTHON · PLAYWRIGHT · OLLAMA · AIOGRAM",
-    status: "IN PROGRESS",
-    statusTone: "progress",
-  },
 ];

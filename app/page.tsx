@@ -112,7 +112,7 @@ export default function Home() {
               </div>
 
               <div className="hero-actions">
-                <Link className={heroActionClass("portfolio")} href="/portfolio/">
+                <Link className={heroActionClass("portfolio")} href="/cases/">
                   {t.hero.ctaPortfolio} <PortfolioIcon />
                 </Link>
                 <a className={heroActionClass("contact")} href="#contact">
@@ -293,7 +293,7 @@ export default function Home() {
               </a>
             </div>
 
-            <ScrollGate href="/portfolio/" label={t.scrollGate.label} ready={t.scrollGate.ready} />
+            <ScrollGate href="/cases/" label={t.scrollGate.label} ready={t.scrollGate.ready} />
           </section>
 
           <footer>

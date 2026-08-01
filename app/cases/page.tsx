@@ -8,7 +8,7 @@ import { ExternalIcon, PlayIcon } from "../components/Icons";
 import { projectsMeta } from "../data/projects";
 import { useLanguage } from "../i18n/context";
 import { homeDict } from "../i18n/home";
-import "./portfolio.css";
+import "./cases.css";
 
 type LightboxImage = {
   src: string;
@@ -17,7 +17,7 @@ type LightboxImage = {
   alt: string;
 };
 
-export default function PortfolioPage() {
+export default function CasesPage() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const { lang } = useLanguage();
   const t = homeDict[lang];
