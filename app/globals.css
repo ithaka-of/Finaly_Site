@@ -371,16 +371,6 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
   will-change: transform;
   pointer-events: none;
 }
-.scan-cross {
-  position: absolute;
-  z-index: 4;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: var(--paper);
-  font: 24px var(--font-geist-mono);
-  pointer-events: none;
-}
 .scan-meta {
   position: absolute;
   z-index: 4;

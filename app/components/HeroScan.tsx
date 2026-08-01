@@ -227,7 +227,6 @@ export function HeroScan({ basePath }: HeroScanProps) {
       <canvas ref={canvasRef} />
       <div className="scan-tint" />
       <div className="scan-line" ref={lineRef} />
-      <div className="scan-cross">+</div>
       <div className="scan-meta">
         <span>SCULPT.EXE</span>
         <span>RENDER PASS_07</span>
