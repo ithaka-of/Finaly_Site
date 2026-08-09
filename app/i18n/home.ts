@@ -7,6 +7,7 @@ export type HomeDict = {
     paragraph: string;
     skillsLabel: string;
     skills: string[];
+    ctaChannel: string;
     ctaPortfolio: string;
     ctaContact: string;
     ctaResume: string;
@@ -62,6 +63,7 @@ const ru: HomeDict = {
       "Собираю сайты, автоматизации и AI-инструменты. Беру задачу в том виде, в каком её описал заказчик, и довожу до состояния, которое можно открыть и показать.",
     skillsLabel: "Навыки",
     skills: ["Веб: фронт, бэк, база", "Локальные AI-модели", "Автоматизация рутины"],
+    ctaChannel: "Канал",
     ctaPortfolio: "Кейсы",
     ctaContact: "Связаться",
     ctaResume: "Скачать резюме",
@@ -198,6 +200,7 @@ const en: HomeDict = {
       "I build websites, automations, and AI tools. I take a task exactly as the client described it and bring it to a state you can open and show.",
     skillsLabel: "Skills",
     skills: ["Web: front, back, database", "Local AI models", "Routine automation"],
+    ctaChannel: "Channel",
     ctaPortfolio: "Cases",
     ctaContact: "Contact",
     ctaResume: "Download CV",

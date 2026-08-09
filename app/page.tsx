@@ -14,9 +14,12 @@ import { HeroScan } from "./components/HeroScan";
 import { ScrollGate } from "./components/ScrollGate";
 import { DownloadIcon, GithubIcon, MailIcon, PortfolioIcon, TelegramIcon, XIcon } from "./components/Icons";
 
-type HeroCta = "portfolio" | "contact";
+type HeroCta = "channel" | "portfolio" | "contact";
 
-const HERO_PRIMARY_CTA: HeroCta = "portfolio";
+const HERO_PRIMARY_CTA: HeroCta = "channel";
+
+// Канал заведён 09.08.2026; до этого акцентной кнопкой временно был «portfolio».
+const CHANNEL_URL = "https://t.me/it_haka";
 
 // Ширина одной ступени каскада «рабочего цикла», в колонках сетки.
 // Держится в паре с `.about-loop li { grid-column-end: span 4 }` в globals.css.
@@ -112,6 +115,9 @@ export default function Home() {
               </div>
 
               <div className="hero-actions">
+                <a className={heroActionClass("channel")} href={CHANNEL_URL} target="_blank" rel="noreferrer">
+                  {t.hero.ctaChannel} <TelegramIcon />
+                </a>
                 <Link className={heroActionClass("portfolio")} href="/cases/">
                   {t.hero.ctaPortfolio} <PortfolioIcon />
                 </Link>
