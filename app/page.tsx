@@ -287,9 +287,9 @@ export default function Home() {
                 <em>ithakawork@gmail.com</em>
                 <strong><MailIcon /></strong>
               </a>
-              <a className="contact-action" href="https://github.com/Mloop13" target="_blank" rel="noreferrer">
+              <a className="contact-action" href="https://github.com/ithaka-of" target="_blank" rel="noreferrer">
                 <span>{t.contact.actionGithub}</span>
-                <em>github.com/Mloop13</em>
+                <em>github.com/ithaka-of</em>
                 <strong><GithubIcon /></strong>
               </a>
               <a className="contact-action" href="https://x.com/Wand33rlust_" target="_blank" rel="noreferrer">

@@ -60,7 +60,7 @@ export const projectsMeta: ProjectMeta[] = [
     className: "project--wide",
     screenshots: [{ src: "priemka.webp", width: 1580, height: 1624 }],
     links: {
-      github: "https://github.com/Mloop13/Priemka",
+      github: "https://github.com/ithaka-of/Priemka",
     },
   },
   {
