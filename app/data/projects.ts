@@ -32,7 +32,7 @@ export const projectsMeta: ProjectMeta[] = [
       { src: "4_m207.webp", width: 1600, height: 851 },
     ],
     links: {
-      demo: "https://mloop13.github.io/m207soft/",
+      demo: "https://ithaka-of.github.io/m207soft/",
     },
   },
   {
