@@ -541,7 +541,11 @@
    `.resume-sheet p` (класс + тег) весит больше одиночного `.resume-role`
    и перебивало центрирование. */
 .resume-sheet .resume-role {
-  margin: 0.35rem 0 0;
+  /* Поля auto, а не 0 (правка 20.08.2026): ограничитель `max-width: 74ch`
+     приходит сюда от `.resume-sheet p`, и при нулевом левом поле блок роли
+     прижимался к левому краю подложки — текст центрировался внутри него и
+     visually уезжал левее имени. */
+  margin: 0.35rem auto 0;
   font-weight: 600;
   color: var(--doc-muted);
   text-align: center;
