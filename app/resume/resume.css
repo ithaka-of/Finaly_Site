@@ -1,0 +1,863 @@
+.portfolio-shell {
+  min-height: 100svh;
+  background:
+    linear-gradient(rgba(1, 222, 130, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(1, 222, 130, .04) 1px, transparent 1px),
+    var(--ink);
+  background-size: 64px 64px;
+  color: var(--paper);
+}
+
+.portfolio-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 76px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 18px;
+  padding: 0 3vw;
+  border-bottom: 1px solid var(--line);
+  background: rgba(2, 14, 14, .88);
+  backdrop-filter: blur(14px);
+}
+
+.portfolio-logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 25px;
+  letter-spacing: .08em;
+}
+
+.portfolio-header nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.portfolio-header nav a,
+.portfolio-lang-toggle {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  color: var(--muted);
+  background: rgba(2, 14, 14, .66);
+  font: 10px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: .2s ease;
+}
+
+.portfolio-header nav a:hover,
+.portfolio-lang-toggle:hover {
+  border-color: var(--mint);
+  color: var(--paper);
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 26px);
+  padding: clamp(20px, 3vw, 44px) 3vw clamp(80px, 8vw, 128px);
+}
+
+.portfolio-card {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto auto;
+  gap: 18px;
+  min-height: 590px;
+  padding: clamp(18px, 2vw, 28px);
+  border: 1px solid var(--line);
+  background: rgba(5, 18, 17, .78);
+  overflow: hidden;
+}
+
+.portfolio-card::before {
+  content: attr(data-card-index);
+  position: absolute;
+  right: 14px;
+  bottom: 8px;
+  color: rgba(241, 240, 234, .055);
+  font: 10px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.portfolio-card-top,
+.portfolio-card-meta,
+.portfolio-links {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font: 9px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.portfolio-card-top span:first-child,
+.portfolio-card-top span:last-child {
+  color: var(--mint);
+}
+
+/* Верхняя строка карточки: 9px из общего правила не читались (правка 20.08.2026).
+   Название кейса — средний span — поднято сильнее номера и статуса: это главное
+   в строке, а номер и LIVE остаются служебными метками. */
+.portfolio-card-top {
+  font-size: 12px;
+}
+
+.portfolio-card-top span:nth-child(2) {
+  font-size: 16px;
+  color: var(--paper);
+  letter-spacing: .08em;
+}
+
+.portfolio-status-badge {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  color: var(--paper);
+  background: rgba(2, 14, 14, .7);
+  font: 10px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.portfolio-card--live .portfolio-status-badge {
+  border-color: rgba(1, 222, 130, .72);
+  color: var(--mint);
+}
+
+.portfolio-card--progress .portfolio-status-badge {
+  border-color: var(--mint);
+  color: var(--ink);
+  background: var(--mint);
+}
+
+.portfolio-preview {
+  position: relative;
+  z-index: 1;
+  min-height: 210px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(1, 222, 130, .34);
+  background:
+    linear-gradient(135deg, rgba(1, 222, 130, .08), transparent 55%),
+    rgba(2, 14, 14, .72);
+}
+
+.portfolio-preview--image {
+  min-height: 0;
+  border-style: solid;
+}
+
+.portfolio-preview-button {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border: 0;
+  padding: 0;
+  background: rgba(2, 14, 14, .82);
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.portfolio-preview-button img,
+.portfolio-thumb img,
+.portfolio-lightbox-frame img {
+  object-fit: contain;
+}
+
+.portfolio-preview-button:hover img,
+.portfolio-thumb:hover img {
+  filter: brightness(1.12);
+}
+
+.portfolio-thumbs {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.portfolio-thumb {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--line);
+  padding: 0;
+  background: rgba(2, 14, 14, .72);
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.portfolio-preview span,
+.portfolio-placeholder,
+.portfolio-links span {
+  color: var(--muted);
+  font: 12px var(--font-geist-mono), monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.portfolio-card-main {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.portfolio-card-main h2 {
+  margin: 0 0 22px;
+  font-size: clamp(24px, 2.6vw, 42px);
+  line-height: 1.05;
+  letter-spacing: -.025em;
+}
+
+.portfolio-card-main dl {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+
+.portfolio-card-main div {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.portfolio-card-main dt {
+  color: var(--mint);
+  font: 11px var(--font-geist-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.portfolio-card-main dd {
+  margin: 0;
+  color: #b1bbb6;
+  font-size: 15px;
+  line-height: 1.62;
+}
+
+.portfolio-links {
+  justify-content: flex-start;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.portfolio-links a,
+.portfolio-links span {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  padding: 9px 12px;
+}
+
+.portfolio-links a {
+  color: var(--paper);
+  transition: .2s ease;
+}
+
+.portfolio-links a:hover {
+  border-color: var(--mint);
+  color: var(--ink);
+  background: var(--mint);
+}
+
+
+/* Хвост страницы: вход в мини-игру. Она лежит отдельным роутом /play, а на
+   главной для неё нет места — там первый экран и так плотный. */
+.portfolio-play {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  margin: 0 3vw clamp(60px, 7vw, 110px);
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--line);
+  background: rgba(2, 14, 14, .55);
+}
+
+.portfolio-play h2 {
+  margin: 0;
+  color: var(--mint);
+  font: 15px var(--font-geist-mono), monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.portfolio-play p {
+  max-width: 640px;
+  margin: 0;
+  color: #b1bbb6;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.portfolio-play-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--mint);
+  padding: 11px 22px;
+  color: var(--mint);
+  font: 12px var(--font-geist-mono), monospace;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  transition: .2s ease;
+}
+
+.portfolio-play-link:hover {
+  background: var(--mint);
+  color: var(--ink);
+}
+
+.portfolio-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 4vw, 56px);
+  background: rgba(2, 14, 14, .86);
+  backdrop-filter: blur(16px);
+  cursor: zoom-out;
+}
+
+.portfolio-lightbox-frame {
+  position: relative;
+  width: min(92vw, 1500px);
+  max-height: 86svh;
+  border: 1px solid var(--mint);
+  background: var(--ink);
+  overflow: hidden;
+  cursor: default;
+}
+
+.portfolio-lightbox-close {
+  position: fixed;
+  right: clamp(18px, 3vw, 42px);
+  top: clamp(16px, 3vw, 38px);
+  z-index: 101;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  background: rgba(2, 14, 14, .78);
+  color: var(--paper);
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.portfolio-lightbox-close:hover {
+  border-color: var(--mint);
+  color: var(--ink);
+  background: var(--mint);
+}
+
+.portfolio-card-meta {
+  padding-top: 4px;
+  justify-content: flex-start;
+  /* Плашки типа кейса («WEB APP · DATABASE · UX») наследовали 9px от общего
+     правила с .portfolio-links и не читались (правка 20.08.2026). */
+  font-size: 12px;
+}
+
+@media (max-width: 860px) {
+  .portfolio-header {
+    height: auto;
+    min-height: 64px;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 10px 5vw;
+  }
+
+  .portfolio-header nav {
+    grid-column: 1 / -1;
+    order: 3;
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .portfolio-header nav a {
+    flex: 1 1 0;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    padding: 24px 5vw 80px;
+  }
+
+  .portfolio-card {
+    min-height: 0;
+  }
+
+  .portfolio-thumbs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .portfolio-card-main div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* ============================================================
+   РЕЗЮМЕ — «лист документа» (19.08.2026)
+
+   Style Guide v1 закрепляет тёмную тему за сайтом, а документам отдаёт
+   светлую: свисс-сетка + лайм. Поэтому резюме здесь — светлый лист,
+   лежащий на тёмной странице, а не тёмный блок среди тёмных.
+
+   Эти же правила обслуживают печатные страницы /resume/print/ru|en/,
+   с которых печатается PDF: один источник вёрстки, страница и PDF
+   не могут разъехаться.
+   ============================================================ */
+
+/* Палитра задана переменными, потому что у резюме ДВЕ темы на одной вёрстке:
+   экранная (тёмная, в стилистике сайта — решение Сергея 19.08) и печатная
+   (светлая, потому что PDF печатают на бумаге и читают в белых просмотрщиках).
+   Меняются только значения переменных, разметка и правила общие. */
+
+.resume-sheet {
+  /* Экран: цвета сайта. Подложка — не белый лист, а плашка чуть светлее фона:
+     текст лежит на своей поверхности, но страница остаётся тёмной. */
+  --doc-bg: #071a17;
+  --doc-ink: #f1f0ea;
+  --doc-muted: #8fa39b;
+  --doc-rule: #17302a;
+  --doc-accent: #01de82; /* минт сайта */
+
+  box-sizing: border-box;
+  width: min(100%, 52rem);
+  margin: 0 auto 4rem;
+  padding: clamp(1.35rem, 3.5vw, 2.75rem);
+  background: var(--doc-bg);
+  color: var(--doc-ink);
+  /* Основная гарнитура сайта (решение Сергея 19.08). Handjet пиксельный и мельче
+     гротеска в том же кегле, поэтому базовый размер поднят, а межстрочное
+     расстояние ослаблено — иначе текст рассыпается. */
+  font-family: var(--font-pixel), var(--font-doc), ui-sans-serif, system-ui, Arial, sans-serif;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.14rem);
+  line-height: 1.45;
+  border: 1px solid var(--doc-rule);
+  border-top: 2px solid var(--doc-accent);
+}
+
+/* Печатная палитра. Держится в двух местах намеренно: на экране печатной
+   страницы (/resume/print/*, чтобы её можно было посмотреть глазами до печати)
+   и собственно при печати. Значения обязаны совпадать — правим парой. */
+.resume-sheet--print {
+  --doc-bg: #ffffff;
+  --doc-ink: #14171a;
+  --doc-muted: #55605c;
+  --doc-rule: #d7d9d0;
+  --doc-accent: #a8c81a; /* лайм со Style Guide, притушен до читаемого на белом */
+
+  /* В PDF — гротеск, а не пиксельный шрифт сайта (возврат по правке Сергея
+     20.08.2026). Причины конкретные: Handjet раздувал файл с 300 КБ до 2 МБ,
+     встраивая пиксельную кириллицу целиком, и у него нет косой черты у нуля —
+     в этом проекте из-за этого «16.08» уже читалось как «16.88», а в резюме
+     цифры несут смысл: даты, объёмы, «1000+ заявлений». */
+  font-family: var(--font-doc), ui-sans-serif, system-ui, "Segoe UI", Arial, sans-serif;
+}
+
+.resume-sheet p {
+  /* Выключка по формату + сам блок текста по центру подложки (правка 20.08.2026).
+     Раньше ограничитель ширины прижимал текст к левому краю, и на широкой
+     подложке справа оставалась пустая полоса — теперь поля симметричны. */
+  margin: 0 auto 0.75rem;
+  /* 74ch, а не 68ch (правка 20.08.2026): абзацы «О себе» были уже списка
+     «Ключевые навыки» под ними, и колонка текста визуально прыгала. Заодно это
+     сажает строку «Стек:» и ссылки проекта на левый край блока — при 68ch они
+     центровались внутри 74ch-блока и висели с отступом от остального текста. */
+  max-width: 74ch;
+  text-align: justify;
+  text-wrap: pretty;
+  hyphens: auto;
+}
+
+/* Короткие служебные строки по ширине не тянем: там выключка даёт
+   растянутую одинокую строку вместо ровного блока.
+   Селектор с двумя классами намеренно (правка 20.08.2026): одиночный класс
+   весит меньше `.resume-sheet p` (класс + тег), и то правило перебивало и
+   выключку, и поля. Плюс `max-width: 74ch` считался в ИХ кегле (0.86–0.88em),
+   выходил уже родителя, и auto-поля отодвигали строку вправо от текста
+   проекта. Снимаем ограничитель — строки и так короткие. */
+.resume-sheet .resume-project-stack,
+.resume-sheet .resume-project-links {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+
+.resume-sheet a {
+  color: var(--doc-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--doc-accent);
+  text-underline-offset: 2px;
+}
+
+/* --- шапка --- */
+
+.resume-head {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--doc-rule);
+  text-align: center; /* шапка целиком по центру — заодно с заголовками секций */
+}
+
+.resume-identity h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Селектор с двумя классами намеренно: роль — это <p>, а правило выключки
+   `.resume-sheet p` (класс + тег) весит больше одиночного `.resume-role`
+   и перебивало центрирование. */
+.resume-sheet .resume-role {
+  margin: 0.35rem 0 0;
+  font-weight: 600;
+  color: var(--doc-muted);
+  text-align: center;
+}
+
+.resume-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9em;
+  color: var(--doc-muted);
+}
+
+.resume-pdf-link {
+  justify-self: center;
+  padding: 0.5rem 1rem;
+  background: var(--doc-accent);
+  color: #14171a;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+/* --- блоки --- */
+
+.resume-block {
+  margin-bottom: 1.75rem;
+}
+
+/* Заголовки секций — по центру, с ромбами по бокам.
+   Ромбы нарисованы CSS (квадрат, повёрнутый на 45°), а НЕ символами ◆/▪:
+   в проекте уже ловили отсутствующие глифы (типографские стрелки в Handjet),
+   и повторять эту ошибку с геометрическими фигурами не стоит — фигура из CSS
+   отрисуется в любом шрифте и на любом принтере. */
+.resume-block h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--doc-muted);
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--doc-rule);
+}
+
+.resume-block h2::before,
+.resume-block h2::after {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  background: var(--doc-accent);
+  transform: rotate(45deg);
+}
+
+.resume-block h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.02em;
+  line-height: 1.3;
+}
+
+/* Заголовок прямо внутри блока (например «Фриланс» в опыте работы) стоял
+   у левого края подложки, пока текст под ним шёл по центру — тот же
+   ограничитель ставит его в один ряд с абзацами (правка 20.08.2026).
+   Заголовки проектов это не трогает: они лежат внутри .resume-project. */
+.resume-block > h3 {
+  max-width: 74ch;
+  margin-left: auto;
+  margin-right: auto;
+  /* Плюс отступ, равный полю блока проекта (padding 0.9rem + линия 2px):
+     правка 20.08.2026 — заголовок должен вставать ровно под заголовки
+     проектов выше, а не под их левую границу. */
+  padding-left: calc(0.9rem + 2px);
+}
+
+/* Списки — с ромбами. Квадраты убраны по правке Сергея 19.08: единый знак
+   на все уровни, разница между секцией и пунктом держится размером. */
+.resume-skills,
+.resume-education {
+  /* Тот же приём, что и у абзацев: ограничитель ширины на контейнере,
+     сам контейнер по центру подложки. Иначе список висит слева. */
+  margin: 0 auto;
+  max-width: 74ch;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+/* Маркеры у пунктов убраны 20.08.2026: ромб остался знаком только заголовка
+   секции. Отступ слева снят вместе с ними, иначе остаётся пустое поле. */
+.resume-skills li,
+.resume-education li {
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* --- проекты --- */
+
+/* Блок проекта переносится целиком (правка Сергея 20.08.2026): раньше
+   ограничитель ширины стоял только на тексте внутри, а сам блок с акцентной
+   линией висел у левого края подложки. Теперь ширину держит блок — линия
+   едет вместе с ним, поля симметричны. Это перенос блока, а не выключка. */
+.resume-project {
+  margin: 0 auto 1.4rem;
+  max-width: 74ch;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--doc-rule);
+}
+
+.resume-project:last-child {
+  margin-bottom: 0;
+}
+
+.resume-project-subtitle,
+.resume-project-year {
+  font-weight: 400;
+  color: var(--doc-muted);
+}
+
+.resume-project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.88em;
+}
+
+/* «Результат» — главная строка проекта, поэтому выделена сильнее прочего.
+   Ромб убран 20.08.2026 вместе с маркерами списков: этот знак закреплён
+   за заголовками секций. Выделение держат акцентная линия и лёгкая заливка —
+   читающий по диагонали всё равно видит результат, а не описание работ. */
+.resume-project-result {
+  margin-top: 0.55rem;
+  padding: 0.5rem 0.7rem;
+  background: color-mix(in srgb, var(--doc-accent) 9%, transparent);
+  border-left: 2px solid var(--doc-accent);
+}
+
+.resume-project-stack {
+  font-size: 0.86em;
+  color: var(--doc-muted);
+  font-style: italic;
+}
+
+/* --- заголовок раздела кейсов на странице --- */
+
+/* Заголовок раздела кейсов: сам элемент ужат по содержимому и перенесён
+   в центр (правка 20.08.2026), а не выровнен text-align — как и блоки
+   проектов выше. Размер поднят: 0.85rem терялся рядом с карточками. */
+.portfolio-cases-heading {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 1.25rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* --- печатная страница: только лист, без обвязки сайта --- */
+
+.resume-sheet--print {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border-top: none;
+}
+
+@page {
+  size: A4;
+  margin: 14mm 12mm;
+}
+
+@media print {
+  /* Печатается только лист. Шапка сайта, сетка кейсов, мини-игра и лайтбокс
+     в PDF не нужны — при печати со страницы /resume/ они просто отсекаются. */
+  .portfolio-header,
+  .portfolio-grid,
+  .portfolio-play,
+  .portfolio-lightbox,
+  .portfolio-cases-heading,
+  .resume-pdf-link {
+    display: none !important;
+  }
+
+  body,
+  .portfolio-shell {
+    background: #fff !important;
+  }
+
+  .resume-sheet {
+    /* Та же светлая палитра, что и у .resume-sheet--print — держать значения
+       синхронно. Без этого печать со страницы /resume/ дала бы светлый текст
+       на белом фоне, то есть пустой лист. */
+    --doc-bg: #ffffff;
+    --doc-ink: #14171a;
+    --doc-muted: #55605c;
+    --doc-rule: #d7d9d0;
+    --doc-accent: #a8c81a;
+
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background: var(--doc-bg);
+    color: var(--doc-ink);
+    border: none; /* подложка и рамка нужны на экране; на бумаге лист и так белый */
+    font-size: 10.2pt;
+    line-height: 1.4;
+  }
+
+  /* Заливка «Результата» на бумаге даёт серое пятно и расход краски.
+     Оставляем только акцентную линию и ромб — выделение читается и без фона. */
+  .resume-project-result {
+    background: none;
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+  }
+
+  /* Разрывы страниц не должны рвать проект пополам или отрывать заголовок
+     от его текста — иначе PDF читается как испорченный. */
+  .resume-block,
+  .resume-project {
+    break-inside: avoid;
+  }
+
+  .resume-block h2,
+  .resume-block h3 {
+    break-after: avoid;
+  }
+
+  .resume-sheet a {
+    text-decoration: none;
+  }
+}
+
+/* --- обёртка печатной страницы --- */
+
+.resume-print-shell {
+  min-height: 100vh;
+  background: #fff;
+  padding: 12mm;
+}
+
+@media print {
+  .resume-print-shell {
+    padding: 0;
+  }
+}
+
+/* --- уплотнение под печать (19.08.2026) ---
+   Первая версия печатных стилей давала 3 страницы против 2 у прежнего PDF.
+   Для junior-резюме это регресс: три страницы читают хуже, а содержание
+   то же самое. Ужимаем типографикой и отступами, ничего не вырезая. */
+
+@page {
+  margin: 10mm 11mm;
+}
+
+@media print {
+  .resume-sheet {
+    /* Печать идёт гротеском (см. .resume-sheet--print) — кегль вернулся
+       к значению, подобранному под Inter, иначе резюме уедет на третью страницу. */
+    font-family: var(--font-doc), ui-sans-serif, system-ui, "Segoe UI", Arial, sans-serif;
+    font-size: 9.4pt;
+    line-height: 1.34;
+  }
+
+  .resume-sheet p {
+    margin-bottom: 0.4rem;
+    max-width: none; /* на A4 ширину держат поля страницы, ограничитель в ch лишний */
+  }
+
+  .resume-identity h1 {
+    font-size: 1.45rem;
+  }
+
+  .resume-head {
+    gap: 0.45rem;
+    padding-bottom: 0.55rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .resume-block {
+    margin-bottom: 0.85rem;
+  }
+
+  .resume-block h2 {
+    font-size: 0.7rem;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.16rem;
+  }
+
+  .resume-project {
+    margin-bottom: 0.7rem;
+    padding-left: 0.65rem;
+  }
+
+  .resume-project-links {
+    margin-bottom: 0.3rem;
+  }
+
+  .resume-skills,
+  .resume-education {
+    gap: 0.26rem;
+    padding-left: 0.95rem;
+  }
+}

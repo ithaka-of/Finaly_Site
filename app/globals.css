@@ -225,7 +225,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 .hero-copy h1 { font-size: clamp(48px, 4.85vw, 78px); }
 .hero-copy h1 span { display: block; white-space: nowrap; }
-.hero-copy > p { max-width: 530px; color: #b1bbb6; font-size: 15px; line-height: 1.65; }
+.hero-copy > p { max-width: 530px; color: #b1bbb6; font-size: 16px; line-height: 1.65; }
 .hero-skills {
   max-width: 560px;
   margin-top: 18px;
@@ -411,15 +411,18 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
 }
 
 .section { padding: clamp(88px, 10vw, 150px) 3vw; }
-.section-index { color: var(--muted); font-size: 13px; }
+.section-index { color: var(--muted); font-size: 14px; }
 .section-heading { display: grid; grid-template-columns: .55fr 1.1fr .75fr; gap: 6vw; align-items: end; margin-bottom: 72px; }
 .section-heading h2 { font-size: clamp(63px, 8.7vw, 135px); margin: 0; }
-.section-intro { color: #9fa9a5; line-height: 1.75; max-width: 410px; font-size: 16px; }
+.section-intro { color: #9fa9a5; line-height: 1.75; max-width: 410px; font-size: 17px; }
 .method { display: grid; grid-template-columns: .8fr 1.2fr; gap: 7vw; border-top: 1px solid var(--line); }
 .method-title { position: relative; }
 .method-head { position: relative; display: inline-block; }
 .method-right { display: flex; flex-direction: column; }
-.method h2 { font-size: clamp(76px, 9.8vw, 152px); margin: 0 0 22px; }
+/* Размер заголовков секций сведён к общему 20.08.2026: до этого каждая секция
+   имела свой clamp (152 / 96 / 207 px), и листая страницу видишь разнобой.
+   Эталон — .section-heading h2; исключение одно: hero-слово на первом экране. */
+.method h2 { font-size: clamp(63px, 8.7vw, 135px); margin: 0 0 22px; }
 .method-note { display: flex; flex-direction: column; gap: 8px; color: var(--muted); font: 12px var(--font-geist-mono), monospace; letter-spacing: .12em; }
 .method-note span { animation: noteGlow 6s ease-in-out infinite; }
 .method-note span:nth-child(2) { animation-delay: 2s; }
@@ -438,7 +441,7 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
 .capability h3 { grid-column: 2; grid-row: 1; margin: 0; font-size: 25px; transition: color .2s ease; }
 .capability:hover h3 { color: var(--mint); }
 .capability i { grid-column: 3; grid-row: 1; justify-self: end; font-size: 22px; font-style: normal; line-height: 1; transition: transform .2s ease; }
-.capability p { grid-column: 2; grid-row: 2; margin: 0; max-height: 0; opacity: 0; overflow: hidden; color: #9fa9a5; font-size: 13px; line-height: 1.65; transition: max-height .32s ease, opacity .32s ease, margin .32s ease; }
+.capability p { grid-column: 2; grid-row: 2; margin: 0; max-height: 0; opacity: 0; overflow: hidden; color: #9fa9a5; font-size: 15px; line-height: 1.65; transition: max-height .32s ease, opacity .32s ease, margin .32s ease; }
 .capability.is-open p { max-height: 220px; opacity: 1; margin-top: 12px; }
 .capability ul {
   grid-column: 2;
@@ -449,7 +452,7 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
   opacity: 0;
   overflow: hidden;
   color: #9fa9a5;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.55;
   transition: max-height .32s ease, opacity .32s ease, margin .32s ease;
 }
@@ -490,7 +493,7 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
 }
 .chaos-toast.is-visible { opacity: 1; transform: translateY(0); }
 .about-copy { position: relative; }
-.about-copy h2 { font-family: var(--font-display); font-size: clamp(48px, 6.2vw, 96px); font-weight: 750; line-height: .98; letter-spacing: -.04em; margin: 0 0 28px; }
+.about-copy h2 { font-family: var(--font-display); font-size: clamp(63px, 8.7vw, 135px); font-weight: 750; line-height: .98; letter-spacing: -.04em; margin: 0 0 28px; }
 .about-copy > p { color: #9fa9a5; line-height: 1.75; max-width: 700px; }
 .about-lead { font-size: 18px; color: var(--paper) !important; }
 /* Рабочий цикл — стандартные фазы разработки, вынесенные в HUD-цепочку вместо
@@ -637,7 +640,7 @@ body.chaos-game-focus .cursor-field { opacity: 0; }
    не встаёт вровень с левым краем заголовка (у обоих отступ 3vw). */
 .contact-top .status-line { position: relative; }
 .contact-top .status-dot { position: absolute; right: calc(100% + 9px); top: 50%; margin: 0; transform: translateY(-50%); }
-.contact h2 { font-size: clamp(89px, 13vw, 207px); max-width: 1200px; margin: 0; }
+.contact h2 { font-size: clamp(63px, 8.7vw, 135px); max-width: 1200px; margin: 0; }
 .contact-channels { position: relative; z-index: 1; width: min(100%, 1200px); margin: 40px auto 0; border-top: 1px solid var(--mint); }
 .contact-action { width: 100%; border-bottom: 1px solid var(--mint); padding: 20px clamp(22px, 4vw, 60px); display: flex; align-items: center; gap: 18px; font: 14px var(--font-geist-mono),monospace; text-transform: uppercase; letter-spacing: .16em; transition: .2s; }
 .contact-action-primary { background: linear-gradient(90deg, rgba(1, 222, 130, .12), rgba(1, 222, 130, .025) 55%, transparent); color: var(--mint); }

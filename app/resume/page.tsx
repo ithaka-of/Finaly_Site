@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LanguageToggle } from "../components/LanguageToggle";
 import { ExternalIcon, PlayIcon } from "../components/Icons";
+import { ResumeSheet } from "../components/ResumeSheet";
 import { projectsMeta } from "../data/projects";
 import { useLanguage } from "../i18n/context";
 import { homeDict } from "../i18n/home";
-import "./cases.css";
+import { resumeDict } from "../i18n/resume";
+import "./resume.css";
 
 type LightboxImage = {
   src: string;
@@ -47,6 +49,12 @@ export default function CasesPage() {
         </nav>
         <LanguageToggle className="portfolio-lang-toggle" />
       </header>
+
+      {/* Страница для работодателя (19.08.2026): резюме идёт первым, кейсы под ним.
+          Главная осталась про личный бренд — сюда приходят читать, а не смотреть. */}
+      <ResumeSheet />
+
+      <h2 className="portfolio-cases-heading">{resumeDict[lang].labels.casesHeading}</h2>
 
       <section className="portfolio-grid" aria-label={t.projectsSection.heading.join(" ")} data-od-id="portfolio-grid">
         {projects.map((project) => {
@@ -156,7 +164,6 @@ export default function CasesPage() {
                     {t.projectCard.github} <ExternalIcon />
                   </a>
                 )}
-                {!hasLinks && <span className="portfolio-story-only">{t.projectCard.storyOnly}</span>}
               </div>
 
               <div className="portfolio-card-meta">

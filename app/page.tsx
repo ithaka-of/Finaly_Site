@@ -118,7 +118,7 @@ export default function Home() {
                 <a className={heroActionClass("channel")} href={CHANNEL_URL} target="_blank" rel="noreferrer">
                   {t.hero.ctaChannel} <TelegramIcon />
                 </a>
-                <Link className={heroActionClass("portfolio")} href="/cases/">
+                <Link className={heroActionClass("portfolio")} href="/resume/">
                   {t.hero.ctaPortfolio} <PortfolioIcon />
                 </Link>
                 <a className={heroActionClass("contact")} href="#contact">
@@ -299,7 +299,7 @@ export default function Home() {
               </a>
             </div>
 
-            <ScrollGate href="/cases/" label={t.scrollGate.label} ready={t.scrollGate.ready} />
+            <ScrollGate href="/resume/" label={t.scrollGate.label} ready={t.scrollGate.ready} />
           </section>
 
           <footer>

@@ -21,7 +21,7 @@ export type ProjectMeta = {
 export const projectsMeta: ProjectMeta[] = [
   {
     index: "01",
-    code: "M207 / 2026",
+    code: "M207",
     meta: "WEBSITE · ART DIRECTION · DELIVERY",
     status: "LIVE",
     statusTone: "live",
@@ -37,7 +37,7 @@ export const projectsMeta: ProjectMeta[] = [
   },
   {
     index: "02",
-    code: "MEDCENTER / 2026",
+    code: "MEDCENTER",
     meta: "WEB APP · DATABASE · UX",
     status: "COMPLETED",
     statusTone: "ready",
@@ -48,7 +48,7 @@ export const projectsMeta: ProjectMeta[] = [
       { src: "4_medcentr.webp", width: 1600, height: 846 },
     ],
     links: {
-      demo: "http://155.212.224.183",
+      demo: "http://45.12.239.170",
     },
   },
   {
