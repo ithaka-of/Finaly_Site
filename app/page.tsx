@@ -78,7 +78,7 @@ export default function Home() {
       <header className="site-header">
         <div id="deck-header-controls" className="deck-header-slot" aria-live="polite" />
         <div className="header-actions">
-          <a className="header-cta" href="https://telegram.me/Wand33rlust" target="_blank" rel="noreferrer">
+          <a className="header-cta" href="https://telegram.me/ithaka_of" target="_blank" rel="noreferrer">
             <TelegramIcon /> Telegram
           </a>
           <LanguageToggle />
@@ -277,9 +277,9 @@ export default function Home() {
               />
             </h2>
             <div className="contact-channels">
-              <a className="contact-action contact-action-primary" href="https://telegram.me/Wand33rlust" target="_blank" rel="noreferrer">
+              <a className="contact-action contact-action-primary" href="https://telegram.me/ithaka_of" target="_blank" rel="noreferrer">
                 <span>{t.contact.action}</span>
-                <em>@Wand33rlust</em>
+                <em>@ithaka_of</em>
                 <strong><TelegramIcon /></strong>
               </a>
               <a className="contact-action" href="mailto:ithakawork@gmail.com">

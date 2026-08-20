@@ -38,7 +38,7 @@ export const resumeName: Record<"ru" | "en", string> = {
 // Телефон убран по решению Сергея 19.08.2026: связь через почту и Telegram.
 export const resumeContacts = {
   email: "ithakawork@gmail.com",
-  telegram: { href: "https://t.me/Wand33rlust", label: "@Wand33rlust" },
+  telegram: { href: "https://t.me/ithaka_of", label: "@ithaka_of" },
   github: { href: "https://github.com/ithaka-of", label: "github.com/ithaka-of" },
   site: {
     href: "https://ithaka-of.github.io/Finaly_Site/",

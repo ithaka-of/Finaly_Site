@@ -43,7 +43,7 @@ export default function CasesPage() {
         </Link>
         <nav aria-label={t.nav.portfolio}>
           <Link href="/">{t.portfolioPage.backHome}</Link>
-          <a href="https://telegram.me/Wand33rlust" target="_blank" rel="noreferrer">
+          <a href="https://telegram.me/ithaka_of" target="_blank" rel="noreferrer">
             {t.portfolioPage.telegram} <ExternalIcon />
           </a>
         </nav>
