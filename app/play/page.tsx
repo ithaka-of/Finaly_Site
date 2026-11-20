@@ -99,8 +99,8 @@ export default function PlayPage() {
         <div className="play-kicker">/PLAY · S-002 · DECRYPT ACCESS CODE</div>
         <h1>CRACK<br />THE CODE</h1>
         <p className="play-rules">
-          Guess the {CODE_LENGTH}-symbol access code in {MAX_ATTEMPTS} attempts.
-          After each try: <b className="play-dot play-dot--exact" /> exact symbol in the right slot,
+          Guess {CODE_LENGTH} symbols in {MAX_ATTEMPTS} tries.
+          <b className="play-dot play-dot--exact" /> right symbol and slot,
           {" "}<b className="play-dot play-dot--shifted" /> right symbol, wrong slot.
         </p>
 

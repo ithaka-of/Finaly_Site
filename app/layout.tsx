@@ -30,12 +30,33 @@ const doc = Inter({
 // для картинок на страницах.
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
+// Превью ссылки в Telegram и мессенджерах (og:*) требует абсолютного URL картинки,
+// и basePath туда тоже надо подставлять руками. Домен Pages задан по умолчанию,
+// переопределяется NEXT_PUBLIC_SITE_ORIGIN при переезде.
+const siteOrigin = process.env.NEXT_PUBLIC_SITE_ORIGIN ?? "https://ithaka-of.github.io";
+const siteUrl = `${siteOrigin}${basePath}/`;
+const siteTitle = "ITHAKA — Сергей Тимошенко";
+const siteDescription =
+  "Сайты, автоматизация и AI-инструменты. От неясной задачи к работающей системе.";
+
 export const metadata: Metadata = {
-  title: "ITHAKA — Сергей Тимошенко",
-  description:
-    "Сайты, автоматизация и AI-инструменты. От неясной задачи к работающей системе.",
-  other: {
-    "codex-preview": "development",
+  metadataBase: new URL(siteOrigin),
+  title: siteTitle,
+  description: siteDescription,
+  openGraph: {
+    type: "website",
+    locale: "ru_RU",
+    siteName: "ITHAKA",
+    url: siteUrl,
+    title: siteTitle,
+    description: siteDescription,
+    images: [{ url: `${siteUrl}og.png`, width: 1200, height: 630, alt: siteTitle }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: [`${siteUrl}og.png`],
   },
   icons: {
     icon: `${basePath}/favicon.svg`,

@@ -51,16 +51,16 @@ export type HomeDict = {
   capabilities: Array<{ title: string; text: string; items?: string[] }>;
   about: { heading: string; lead: string; paragraph: string; loopLabel: string; loop: string[] };
   scrollGate: { label: string; ready: string };
-  contact: { heading: string[]; action: string; actionEmail: string; actionGithub: string; actionX: string };
+  contact: { heading: string[]; note: string; action: string; actionEmail: string; actionGithub: string; actionX: string };
   footer: { brand: string };
 };
 
 const ru: HomeDict = {
   nav: { portfolio: "Кейсы", skills: "Что умею", about: "Обо мне", contact: "Контакт" },
   hero: {
-    lines: ["Из хаоса —", "в рабочую", "систему"],
+    lines: ["Из хаоса", "в рабочую", "систему"],
     paragraph:
-      "Собираю сайты, автоматизации и AI-инструменты. Беру задачу в том виде, в каком её описал заказчик, и довожу до состояния, которое можно открыть и показать.",
+      "Сайты, боты и автоматизация с ИИ. Разбираю задачу, собираю и проверяю результат.",
     skillsLabel: "Навыки",
     skills: ["Веб: фронт, бэк, база", "Локальные AI-модели", "Автоматизация рутины"],
     ctaChannel: "Канал",
@@ -89,33 +89,33 @@ const ru: HomeDict = {
     telegram: "Telegram",
     playHeading: "Мини-игра",
     playText:
-      "Кодовый замок на греческих символах: четыре знака из шести, восемь попыток, после каждой — сколько угадано на своих местах, а сколько не на своих. Сделана как разминка по состоянию и логике подсказок.",
+      "Угадай четыре символа за восемь попыток. После каждого хода получишь подсказку.",
     playCta: "Играть",
   },
   projects: [
     {
       title: "Сайт компании медицинского ПО",
-      proof: "Живой каталог продуктов с клиентскими итерациями",
+      proof: "Опубликованный каталог продуктов компании",
       description:
-        "Сайт-визитка с каталогом продуктов: сбор материалов, постановка задачи, визуальная система под фирменный стиль и итерации с заказчиком.",
+        "Собрал требования и материалы, согласовал правки. Код помог написать ИИ.",
       stack: "HTML, CSS, GitHub Pages",
-      role: "Фрилансер: пришёл заказ — сделал сайт целиком",
+      role: "Требования, постановка задачи ИИ и приёмка сайта",
       statusLabel: "живой сайт",
     },
     {
       title: "Онлайн-запись в медицинский центр",
       proof: "Полный сценарий записи от процедуры до истории визитов",
       description:
-        "Дипломное веб-приложение: специалисты и процедуры, запись на приём, личный кабинет, история визитов и связанная бизнес-логика.",
+        "Дипломный проект: запись на приём, личный кабинет и история визитов.",
       stack: "Python, Flask, SQLite, Bootstrap",
-      role: "Наёмный разработчик: заказ на автоматизацию обработки заявок",
+      role: "Дипломный проект: разработка приложения для онлайн-записи",
       statusLabel: "диплом",
     },
     {
       title: "Рейтинг-листы приёмной кампании",
-      proof: "≈1200 заявлений переведены в рейтинг-листы",
+      proof: "1000+ заявлений распределены по рейтинг-листам",
       description:
-        "Помог Колледжу высоких технологий при БГТУ им. В. Г. Шухова собрать рейтинг-листы из выгрузки примерно на 1200 заявлений: разнос данных, сохранение ручных правок и обработка нестандартных статусов.",
+        "Скрипт разносит 1000+ заявлений по специальностям и сохраняет ручные баллы.",
       stack: "Node.js, Google Sheets API v4, PowerShell",
       role: "Помогал с приёмкой руками, увидел рутину и автоматизировал",
       statusLabel: "результат можно показать",
@@ -124,7 +124,7 @@ const ru: HomeDict = {
       title: "job-watcher",
       proof: "Ручной обход источников заменён одной лентой",
       description:
-        "Бот собирает вакансии из шести Telegram-каналов, Habr и «Работы России», фильтрует по заданным критериям и присылает подходящее в личку. Теги навыков подтягиваются оттуда, где они есть.",
+        "Собирает вакансии из Telegram, Habr и \"Работы России\", фильтрует и присылает в личку.",
       stack: "Python, Telegram Bot API, RSS, API «Работа России»",
       role: "Автор идеи и разработчик",
       statusLabel: "работает",
@@ -140,48 +140,49 @@ const ru: HomeDict = {
   capabilities: [
     {
       title: "Навыки",
-      text: "Три направления, и за каждым есть работа в портфолио.",
+      text: "Применяю в проектах и продолжаю разбираться в коде.",
       items: [
-        "Веб-приложения целиком — интерфейс, серверная часть и база данных",
-        "AI-инструменты на локальных моделях, без облака и подписок",
-        "Ручная рутина превращается в скрипт: таблицы, выгрузки, повторяющиеся операции",
+        "Сайты и веб-приложения",
+        "Локальные модели через Ollama",
+        "Скрипты для таблиц и выгрузок",
       ],
     },
     {
       title: "Метод",
-      text: "ИИ пишет код. Я отвечаю за то, чтобы он делал правильную вещь.",
+      text: "ИИ помогает писать код. Я ставлю задачу и проверяю результат.",
       items: [
-        "Разобрать — Перевожу размытый запрос в понятные требования, сценарии и границы результата.",
-        "Собрать — Использую AI как производственный инструмент для сайтов, ботов и автоматизаций.",
-        "Проверить — Ищу неоднозначности и краевые случаи до того, как они превратятся в проблемы.",
-        "Довести — Показываю рабочий результат, собираю обратную связь и провожу через итерации.",
+        "Уточняю задачу и критерий готовности.",
+        "Собираю с ИИ и проверяю.",
+        "Проверяю ошибки и пограничные случаи.",
+        "Обсуждаю результат и вношу правки.",
       ],
     },
     {
       title: "Чем помогу",
-      text: "Задачи, где рутину можно заменить скриптом, а хаос — системой.",
+      text: "Помогаю убрать ручную рутину.",
       items: [
-        "Автоматизировать повторяющуюся ручную работу: выгрузки, таблицы, однотипные операции",
-        "Сделать сайт: от визитки до приложения с базой данных",
-        "Настроить поиск клиентов: подбор кандидатов, персональные первые касания, отслеживание ответов",
+        "Обработка таблиц и выгрузок",
+        "Сайты и Telegram-боты",
+        "Поиск клиентов и учёт ответов",
       ],
     },
   ],
   about: {
     heading: "Как я работаю",
     lead:
-      "Выпускник Колледжа высоких технологий, направление «Информационные системы и программирование».",
+      "Окончил Колледж высоких технологий. С сентября 2026 учусь на информационных системах в БГТУ им. Шухова.",
     paragraph:
-      "Каждый проект здесь начинался с живой задачи: сайт компании, запись в медцентр, полторы тысячи заявлений приёмной кампании. Что-то заказывали, что-то просто надоело делать руками. Разбираюсь по ходу — так видно, как задача превращается в работающую систему.",
+      "М207, МедЦентр и рейтинги на 1000+ заявлений. Учусь программировать, чтобы понимать код от ИИ.",
     loopLabel: "Рабочий цикл",
     loop: ["Планирование", "Разработка", "Сборка", "Тестирование", "Релиз", "Мониторинг"],
   },
   scrollGate: {
-    label: "Листай дальше — откроются кейсы",
+    label: "Листай дальше: откроются кейсы",
     ready: "Готово, открываю кейсы",
   },
   contact: {
     heading: ["Есть хаос,", "который пора", "собрать?"],
+    note: "Опишите задачу и срок. Отвечаю в течение суток.",
     action: "Написать в Telegram",
     actionEmail: "Написать на почту",
     actionGithub: "Смотреть код",
@@ -197,7 +198,7 @@ const en: HomeDict = {
   hero: {
     lines: ["Out of chaos —", "into a working", "system"],
     paragraph:
-      "I build websites, automations, and AI tools. I take a task exactly as the client described it and bring it to a state you can open and show.",
+      "Websites, bots, and automation with AI. I clarify the task, build, and check the result.",
     skillsLabel: "Skills",
     skills: ["Web: front, back, database", "Local AI models", "Routine automation"],
     ctaChannel: "Channel",
@@ -226,33 +227,33 @@ const en: HomeDict = {
     telegram: "Telegram",
     playHeading: "Mini-game",
     playText:
-      "A code lock on Greek symbols: four glyphs out of six, eight attempts, and after each one you learn how many are in the right place and how many are merely present. Built as a warm-up on state and hint logic.",
+      "Guess four symbols in eight attempts, with a hint after each turn.",
     playCta: "Play",
   },
   projects: [
     {
       title: "Website for a medical software company",
-      proof: "Live product catalog with client-side iteration",
+      proof: "Published company product catalogue",
       description:
-        "A business-card site with a product catalog: gathering materials, framing the task, a visual system on brand, and iterating with the client.",
+        "I gathered requirements, coordinated revisions, and reviewed the AI-written code.",
       stack: "HTML, CSS, GitHub Pages",
-      role: "Freelancer: took the order, built the site end to end",
+      role: "Requirements, AI task direction, and review",
       statusLabel: "live website",
     },
     {
       title: "Online booking for a medical center",
       proof: "Full booking flow from procedure to visit history",
       description:
-        "Capstone web app: specialists and procedures, appointment booking, a personal account, visit history, and the business logic behind it.",
+        "Graduation project: appointment booking, personal accounts, and visit history.",
       stack: "Python, Flask, SQLite, Bootstrap",
-      role: "Hired developer: a request to automate booking intake",
+      role: "Graduation project: building an appointment booking app",
       statusLabel: "capstone",
     },
     {
       title: "Admission rating sheets",
-      proof: "~1,200 applications reshaped into rating sheets",
+      proof: "1,000+ applications distributed across ranking sheets",
       description:
-        "Helped the College of High Technologies at BSTU named after V. G. Shukhov build rating sheets from a ~1,200-application export: reshaping data, preserving manual edits, and handling non-standard statuses.",
+        "Distributes 1,000+ applications by programme while preserving manual scores.",
       stack: "Node.js, Google Sheets API v4, PowerShell",
       role: "Helped with admissions by hand, spotted the routine, automated it",
       statusLabel: "showable result",
@@ -261,7 +262,7 @@ const en: HomeDict = {
       title: "job-watcher",
       proof: "Manual source-checking replaced by a single feed",
       description:
-        "A bot that collects vacancies from six Telegram channels, Habr, and the Russian public job registry, filters them by set criteria, and sends matches to a private chat. Skill tags are pulled from the sources that provide them.",
+        "Collects vacancies from Telegram, Habr, and the Russian job registry. Filters and sends matches.",
       stack: "Python, Telegram Bot API, RSS, Russian public job registry API",
       role: "Idea author and developer",
       statusLabel: "works",
@@ -277,39 +278,39 @@ const en: HomeDict = {
   capabilities: [
     {
       title: "Skills",
-      text: "Three directions, each backed by work in the cases.",
+      text: "Tools I use in projects while continuing to learn the code.",
       items: [
-        "Full web applications — interface, server side, and database",
-        "AI tools on local models, no cloud and no subscriptions",
-        "Manual routine turns into a script: spreadsheets, exports, repetitive operations",
+        "Websites and web applications",
+        "Local models via Ollama",
+        "Scripts for spreadsheets and exports",
       ],
     },
     {
       title: "Method",
-      text: "AI writes the code. I'm responsible for making sure it builds the right thing.",
+      text: "AI helps write code. I define the task and review the result.",
       items: [
-        "Decode — I turn a vague request into clear requirements, scenarios, and result boundaries.",
-        "Assemble — I use AI as a production tool for websites, bots, and automations.",
-        "Verify — I hunt for ambiguity and edge cases before they turn into problems.",
-        "Deliver — I show a working result, gather feedback, and carry it through iterations.",
+        "Define the task and acceptance criteria.",
+        "Build with AI and verify.",
+        "Check errors and edge cases.",
+        "Review the result and revise.",
       ],
     },
     {
       title: "How I can help",
-      text: "Tasks where routine can be replaced by a script, and chaos by a system.",
+      text: "Less repetitive manual work.",
       items: [
-        "Automate repetitive manual work: exports, spreadsheets, same-shape operations",
-        "Build a website: from a business card to an app with a database",
-        "Set up client outreach: shortlisting, personalized first messages, reply tracking",
+        "Spreadsheets and exports",
+        "Websites and Telegram bots",
+        "Lead search and reply tracking",
       ],
     },
   ],
   about: {
     heading: "How I work",
     lead:
-      "Graduate of the College of High Technologies, Information Systems and Programming track.",
+      "College of High Technologies graduate. Studying Information Systems at BSTU since September 2026.",
     paragraph:
-      "Every project here started with a real task: a company website, medical center booking, fifteen hundred admission applications. Some were commissioned, some I simply got tired of doing by hand. I figure things out as I go — that's how you can see a task turning into a working system.",
+      "M207, MedCenter, and admissions rankings for 1,000+ applications. Learning to understand AI-written code.",
     loopLabel: "Working loop",
     loop: ["Plan", "Code", "Build", "Test", "Release", "Monitor"],
   },
@@ -319,6 +320,7 @@ const en: HomeDict = {
   },
   contact: {
     heading: ["There's chaos,", "that's ready", "to be built?"],
+    note: "Describe the task and deadline. I reply within a day.",
     action: "Message on Telegram",
     actionEmail: "Send an email",
     actionGithub: "Browse the code",

@@ -46,82 +46,82 @@ const ru: ResumeDict = {
     languages: "Языки",
   },
   about: [
-    "Выпускник Колледжа высоких технологий при БГТУ им. В. Г. Шухова, специальность «Информационные системы и программирование». Делаю сайты, веб-приложения и автоматизацию рутинных процессов.",
-    "Один из моих проектов работает в ежедневной эксплуатации у заказчика с июля 2026 — приёмная комиссия колледжа обновляет рейтинговую таблицу сама, без моего участия. Ручная операция, занимавшая часы, теперь занимает секунды.",
-    "Работаю с AI-инструментами как с производственным стеком: постановка задачи, декомпозиция, бизнес-логика и краевые случаи — на мне, генерация кода — на модели, проверка результата снова на мне. Так собираю рабочий результат быстрее, чем классической разработкой.",
+    "Окончил Колледж высоких технологий. С сентября 2026 учусь на информационных системах в БГТУ им. Шухова.",
+    "Собираю сайты и автоматизацию с ИИ. Среди проектов: М207 и рейтинги на 1000+ заявлений.",
+    "Ставлю задачи ИИ и проверяю результат. Самостоятельное программирование пока осваиваю.",
   ],
   skills: [
     {
-      title: "Веб: фронтенд, бэкенд, база данных",
-      body: "HTML/CSS, адаптивная вёрстка, тёмная тема; Python + Flask; проектирование и нормализация БД, SQL",
+      title: "Веб: инструменты, применённые в проектах",
+      body: "HTML/CSS, Python, Flask, SQL, проектирование баз данных",
     },
     {
       title: "Автоматизация рутинных процессов",
-      body: "Node.js и Python-пайплайны, Google Sheets API, Telegram-боты, парсинг и сбор данных из внешних источников",
+      body: "Python, Node.js, Google Sheets API, Telegram-боты, сбор данных",
     },
     {
       title: "Локальные AI-модели",
-      body: "запуск и применение через Ollama без облачных сервисов, полнотекстовый и семантический поиск по данным",
+      body: "Ollama, полнотекстовый и семантический поиск",
     },
     {
       title: "Постановка задач ИИ и приёмка результата",
-      body: "декомпозиция, контроль краевых случаев, проверка выдачи (Claude Code, Codex, локальные модели)",
+      body: "Требования, пограничные случаи, проверка кода: Claude Code и Codex",
     },
     {
       title: "Системный анализ",
-      body: "жизненный цикл ПО, UML-диаграммы, выявление неоднозначностей в требованиях до реализации",
+      body: "Требования, UML, жизненный цикл ПО",
     },
     {
       title: "Инструменты",
-      body: "Git/GitHub, GitHub Actions, деплой на GitHub Pages и Vercel, PowerShell",
+      body: "Git/GitHub, Actions, GitHub Pages, Vercel, PowerShell",
     },
   ],
   projects: {
     priemka: {
       title: "Автоматизация приёмной кампании колледжа",
-      body: "Пайплайн ежедневного пересбора приёмной таблицы: выгрузка из учётной системы (более 1000 заявлений, 30+ колонок с персональными данными) разносится в обезличенный рейтинг по 14 листам специальностей. Фильтрация персональных данных по белому списку, идемпотентный пересбор, автоматическое выделение льготников, сохранение проставленных вручную баллов. Бизнес-логику и краевые случаи держал сам: отсутствующий лист специальности, статус «Отозван», конфликт форм оплаты — эти проблемы нашёл я, а не заказчик после сбоя.",
+      body: "1000+ заявлений, 14 листов специальностей. Настроил правила распределения, защиту персональных данных и обработку спорных статусов.",
       result:
-        "Ручная работа сократилась с часов до секунд; с июля 2026 таблицу обновляет сотрудник приёмной комиссии самостоятельно.",
+        "Пересборка без дублей с сохранением ручных баллов.",
     },
     m207: {
-      title: "Сайт компании «М 207 Софт»",
+      title: "Сайт компании \"М 207 Софт\"",
       subtitle: "разработчик медицинского ПО, Белгород",
-      body: "Сайт-визитка с каталогом продуктов для внешнего заказчика. Моя роль: сбор требований и материалов, формулировка технического задания, фирменный стиль под логотип, приёмка и итерации правок с заказчиком. Реализация выполнена ИИ-инструментами под моим контролем.",
+      body: "Собрал требования, поставил задачу ИИ и согласовал правки с заказчиком. Проверил каталог и оформление.",
     },
     medcenter: {
-      title: "Веб-приложение «МедЦентр» — система онлайн-записи",
+      title: "МедЦентр: приложение для онлайн-записи",
       subtitle: "дипломный проект",
-      body: "Многостраничное приложение: регистрация и авторизация, каталог специалистов и процедур, онлайн-запись на приём, личный кабинет с историей визитов. Проектирование базы данных и бизнес-логики. Развёрнуто на собственном VPS.",
+      body: "Регистрация, запись на приём и история визитов. Спроектировал базу данных и логику записи.",
     },
     jobWatcher: {
       title: "job-watcher — бот мониторинга вакансий",
-      body: "Telegram-бот: сбор вакансий из нескольких источников (Telegram-каналы, Habr RSS, API «Работа России»), фильтрация по ключевым словам, дедупликация, уведомления. Работает ежедневно.",
+      body: "Собирает вакансии из Telegram, Habr и \"Работы России\". Фильтрует и присылает без дублей.",
     },
     agentInfra: {
       title: "Личная агентная инфраструктура",
       subtitle: "R&D",
-      body: "Система ежедневных сводок и логирования: сбор данных из Google Sheets и новостных источников, доставка в Telegram, база знаний с полнотекстовым и семантическим поиском. Работает с июля 2026 без ручного вмешательства.",
+      body: "Сводки из таблиц и новостей, доставка в Telegram, поиск по заметкам. Дорабатываю с июля 2026.",
     },
   },
   experience: {
     title: "Фриланс — технические работы на заказ (2024–2026)",
-    body: "Выполнение технических заданий с применением AI-инструментов. Все заказы сданы и оплачены, клиенты приходили по рекомендациям.",
+    body: "Сайты, таблицы и автоматизация с ИИ: требования, сборка и проверка.",
   },
   education: [
     {
       title: "Колледж высоких технологий при БГТУ им. В. Г. Шухова",
-      body: "специальность 09.02.07 «Информационные системы и программирование», 2022–2026 — диплом защищён",
+      body: "09.02.07 \"Информационные системы и программирование\", 2022–2026. Диплом защищён.",
     },
     {
       title: "БГТУ им. В. Г. Шухова",
-      body: "бакалавриат «Информационные системы и технологии», сокращённая программа, с сентября 2026",
+      body: "\"Информационные системы и технологии\", бакалавриат. С сентября 2026, программа 3 года.",
     },
     {
       title: "Школа анализа данных Яндекса",
-      body: "интенсив «AI Agents Security Week», 27–31 июля 2026 — сертификат (АНО ДПО «Образовательные технологии Яндекса»). Практика по безопасности ИИ-агентов: тестирование guardrails и защита от извлечения системного промпта",
+      body: "AI Agents Security Week, 27–31 июля 2026. Сертификат, практика безопасности ИИ-агентов.",
     },
   ],
-  languages: "Русский — родной · Английский — A2",
+  languages: "Русский: родной. Английский: A1, продолжаю учить.",
   labels: {
     stack: "Стек",
     result: "Результат",
@@ -145,66 +145,66 @@ const en: ResumeDict = {
     languages: "Languages",
   },
   about: [
-    "Graduate of the College of High Technologies at BSTU (Belgorod), majoring in Information Systems and Programming. I build websites, web applications and automation for routine business processes.",
-    "One of my projects has been in daily production use since July 2026: the college admissions office now updates its ranking spreadsheet on its own, without me. A manual operation that used to take hours now takes seconds.",
-    "I treat AI tools as a production stack: framing the task, breaking it down, owning the business logic and the edge cases — that part is mine; code generation is the model's; verifying the result is mine again. That is how I ship working results faster than by writing everything by hand.",
+    "College of High Technologies graduate. Studying Information Systems at BSTU since September 2026.",
+    "I build websites and automation with AI. Projects include M207 and rankings for 1,000+ applications.",
+    "I define tasks for AI and verify the result. Still learning to program independently.",
   ],
   skills: [
     {
-      title: "Web: frontend, backend, database",
-      body: "HTML/CSS, responsive layout, dark theme; Python + Flask; database design and normalisation, SQL",
+      title: "Web: tools used in my projects",
+      body: "HTML/CSS, Python, Flask, SQL, database design",
     },
     {
       title: "Process automation",
-      body: "Node.js and Python pipelines, Google Sheets API, Telegram bots, scraping and data collection from external sources",
+      body: "Python, Node.js, Google Sheets API, Telegram bots, data collection",
     },
     {
       title: "Local AI models",
-      body: "running and applying models via Ollama with no cloud services, full-text and semantic search over data",
+      body: "Ollama, full-text and semantic search",
     },
     {
       title: "Directing AI and reviewing its output",
-      body: "task decomposition, edge-case control, verification of generated results (Claude Code, Codex, local models)",
+      body: "Requirements, edge cases, code review with Claude Code and Codex",
     },
     {
       title: "Systems analysis",
-      body: "software lifecycle, UML diagrams, spotting ambiguity in requirements before implementation",
+      body: "Requirements, UML, software lifecycle",
     },
     {
       title: "Tooling",
-      body: "Git/GitHub, GitHub Actions, deployment to GitHub Pages and Vercel, PowerShell",
+      body: "Git/GitHub, Actions, GitHub Pages, Vercel, PowerShell",
     },
   ],
   projects: {
     priemka: {
       title: "College admissions campaign automation",
-      body: "A pipeline that rebuilds the admissions spreadsheet daily: an export from the record system (over 1,000 applications, 30+ columns containing personal data) is redistributed into an anonymised ranking across 14 per-programme sheets. Whitelist-based filtering of personal data, idempotent rebuilds, automatic flagging of applicants with legal priority, preservation of manually entered scores. I owned the business logic and the edge cases: a missing programme sheet, the \"Withdrawn\" status, conflicting payment types — I found these myself rather than the client finding them after a failure.",
+      body: "1,000+ applications across 14 programme sheets. I defined distribution rules, personal-data filtering, and unusual-status handling.",
       result:
-        "Manual work dropped from hours to seconds; since July 2026 an admissions officer updates the spreadsheet without any developer involved.",
+        "Repeated imports preserve manual scores without duplicates.",
     },
     m207: {
       title: "Corporate website for M 207 Soft",
       subtitle: "medical software vendor, Belgorod",
-      body: "A company website with a product catalogue for an external client. My role: gathering requirements and materials, writing the specification, building the visual identity around the logo, reviewing the result and running revision rounds with the client. Implementation was carried out with AI tools under my supervision.",
+      body: "Gathered requirements, directed AI, and coordinated client revisions. Reviewed the catalogue and design.",
     },
     medcenter: {
       title: "MedCenter — online appointment booking web app",
       subtitle: "graduation project",
-      body: "A multi-page application: sign-up and authentication, catalogue of specialists and procedures, online appointment booking, personal area with visit history. Database and business logic designed by me. Deployed on my own VPS.",
+      body: "Registration, appointment booking, and visit history. I designed the database and booking logic.",
     },
     jobWatcher: {
       title: "job-watcher — job posting monitoring bot",
-      body: "A Telegram bot that collects job postings from several sources (Telegram channels, Habr RSS, the Russian federal employment API), filters them by keywords, deduplicates and sends notifications. Runs daily.",
+      body: "Collects and filters vacancies from Telegram, Habr, and the Russian job registry. Sends matches without duplicates.",
     },
     agentInfra: {
       title: "Personal agent infrastructure",
       subtitle: "R&D",
-      body: "A system for daily briefings and session logging: data collection from Google Sheets and news sources, delivery to Telegram, a knowledge base with full-text and semantic search. Running since July 2026 without manual intervention.",
+      body: "Briefings from spreadsheets and news, Telegram delivery, and note search. In use since July 2026.",
     },
   },
   experience: {
     title: "Freelance — technical work on commission (2024–2026)",
-    body: "Delivering technical assignments with AI tools. Every order was completed and paid for; clients came through referrals.",
+    body: "Websites, spreadsheets, and automation with AI: requirements, implementation, and review.",
   },
   education: [
     {
@@ -217,10 +217,10 @@ const en: ResumeDict = {
     },
     {
       title: "Yandex School of Data Analysis",
-      body: "AI Agents Security Week intensive, 27–31 July 2026 — certificate. Hands-on work on AI agent security: testing guardrails and defending against system prompt extraction",
+      body: "AI Agents Security Week, 27–31 July 2026. Certificate and AI agent security practice.",
     },
   ],
-  languages: "Russian — native · English — A2",
+  languages: "Russian: native. English: A1, currently studying.",
   labels: {
     stack: "Stack",
     result: "Result",

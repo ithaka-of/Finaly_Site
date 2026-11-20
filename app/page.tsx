@@ -276,6 +276,7 @@ export default function Home() {
                 ]}
               />
             </h2>
+            <p className="contact-note">{t.contact.note}</p>
             <div className="contact-channels">
               <a className="contact-action contact-action-primary" href="https://telegram.me/ithaka_of" target="_blank" rel="noreferrer">
                 <span>{t.contact.action}</span>

@@ -47,9 +47,8 @@ export const projectsMeta: ProjectMeta[] = [
       { src: "3_medcentr.webp", width: 1600, height: 852 },
       { src: "4_medcentr.webp", width: 1600, height: 846 },
     ],
-    links: {
-      demo: "http://45.12.239.170",
-    },
+    // Демо-ссылки нет: VPS 45.12.239.170 уничтожен хостером (ноябрь 2026),
+    // интерфейс показан скриншотами выше.
   },
   {
     index: "03",
